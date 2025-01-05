@@ -1,64 +1,100 @@
 import {
-	MagnifyingGlassIcon,
-	ShoppingBagIcon,
-	UserCircleIcon,
+  Bars3Icon,
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+  ShoppingBagIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { Link } from "react-router";
 import VioraLogo from "../../assets/viora_logo.svg";
+import { NAV_ITEMS } from "../../utils";
 import { ButtonComponent, TextInputComponent } from "../common";
+import NavDrawerComponent from "./NavDrawerComponent";
+import NavItemComponent from "./NavItemComponent";
+
+function NavItems() {
+  return (
+    <nav className="hidden custom-lg:block">
+      <ul className="flex gap-12">
+        {NAV_ITEMS.map((item, index) => (
+          <li key={index.toString()}>
+            <NavItemComponent
+              label={item}
+              icon={item === "Categories" ? ChevronDownIcon : undefined}
+            />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
 
 function HeaderComponent() {
-	const navItems = [
-		"Categories",
-		"Bestsellers",
-		"New Arrivals",
-		"On Sale",
-	];
+  const [isNavOverlayOpen, setIsNavOverlayOpen] = useState(false);
 
-	return (
-		<header className="flex justify-center w-full px-4 py-3 md:px-8 lg:px-[104px] lg:py-6">
-			<div className="w-full min-w-[375px] max-w-[1440px] flex items-center gap-x-12">
-				<div className="flex items-center gap-x-12 w-full">
-					<Link to="/">
-						<img src={VioraLogo} alt="Viora Logo" />
-					</Link>
-					<nav>
-						<ul className="flex gap-x-12">
-							{navItems.map((item, index) => (
-								<li
-									key={index.toString()}
-									className="text-sm uppercase tracking-wider cursor-pointer"
-								>
-									{item}
-								</li>
-							))}
-						</ul>
-					</nav>
-				</div>
-				<div className="flex items-center gap-x-6">
-					<TextInputComponent
-						placeholder="Search"
-						icon={MagnifyingGlassIcon}
-						hideLabel
-					/>
-					<div className="flex items-center">
-						<ButtonComponent
-							hideText
-							icon={ShoppingBagIcon}
-							variant="link"
-							size="xl"
-						/>
-						<ButtonComponent
-							hideText
-							icon={UserCircleIcon}
-							variant="link"
-							size="xl"
-						/>
-					</div>
-				</div>
-			</div>
-		</header>
-	);
+  const CLASSES = {
+    CONTAINER: "flex justify-center w-full ",
+    CONTENT:
+      "container flex items-center justify-between py-3 content lg:py-6 custom-lg:grid custom-lg:grid-cols-12",
+    CONTENT_COL_1: "flex items-center gap-12 custom-lg:col-span-8",
+    CONTENT_COL_2: "flex items-center gap-6 custom-lg:col-span-4",
+  };
+
+  const toggleNavOverlay = () => {
+    setIsNavOverlayOpen(!isNavOverlayOpen);
+  };
+
+  return (
+    <header className={CLASSES.CONTAINER}>
+      <div className={CLASSES.CONTENT}>
+        <div className={CLASSES.CONTENT_COL_1}>
+          <Link to="/">
+            <img src={VioraLogo} alt="Viora Logo" className="w-fit" />
+          </Link>
+          <NavItems />
+        </div>
+        <div className={CLASSES.CONTENT_COL_2}>
+          <div className="hidden md:block">
+            <TextInputComponent
+              placeholder="Search"
+              icon={MagnifyingGlassIcon}
+              hideLabel
+            />
+          </div>
+          <div className="flex items-center gap-6">
+            <ButtonComponent
+              hideText
+              icon={ShoppingBagIcon}
+              variant="link"
+              size="xl"
+            />
+            <div className="hidden custom-lg:block">
+              <ButtonComponent
+                hideText
+                icon={UserCircleIcon}
+                variant="link"
+                size="xl"
+              />
+            </div>
+            <div className="block custom-lg:hidden">
+              <ButtonComponent
+                hideText
+                icon={Bars3Icon}
+                variant="link"
+                size="xl"
+                onClick={toggleNavOverlay}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <NavDrawerComponent
+        isOpen={isNavOverlayOpen}
+        onClick={toggleNavOverlay}
+      />
+    </header>
+  );
 }
 
 export default HeaderComponent;
