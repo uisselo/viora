@@ -34,6 +34,34 @@
 	font-display: swap;
 }
 
+@layer base {
+	html {
+		@apply text-gray-800;
+	}
+}
+
 * {
 	box-sizing: border-box;
+}
+
+.container {
+	padding-left: 1rem;
+	padding-right: 1rem;
+	width: 100%;
+	min-width: 375px;
+	max-width: 1440px;
+}
+  
+@media (min-width: 768px) {
+	.container {
+		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.container {
+		padding-left: 104px;
+		padding-right: 104px;
+	}
 }
