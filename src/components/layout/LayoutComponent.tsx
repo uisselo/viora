@@ -1,17 +1,23 @@
 import { Outlet } from "react-router";
-import HeaderComponent from "./HeaderComponent";
 import FooterComponent from "./FooterComponent";
+import HeaderComponent from "./HeaderComponent";
 
 function LayoutComponent() {
-	return (
-		<div className="flex flex-col justify-center items-center gap-y-8 md:gap-y-12 lg:gap-y-16">
-			<HeaderComponent />
-			<main className="w-full h-screen min-w-[375px] max-w-[1440px]">
-				<Outlet />
-			</main>
-			<FooterComponent />
-		</div>
-	);
+  const CLASSES = {
+    CONTAINER:
+      "relative flex flex-col items-center justify-center gap-8 md:gap-12 lg:gap-16",
+    MAIN: "container grid h-screen grid-cols-4 gap-4 md:grid-cols-12 lg:gap-5",
+  };
+
+  return (
+    <div className={CLASSES.CONTAINER}>
+      <HeaderComponent />
+      <main className={CLASSES.MAIN}>
+        <Outlet />
+      </main>
+      <FooterComponent />
+    </div>
+  );
 }
 
 export default LayoutComponent;
