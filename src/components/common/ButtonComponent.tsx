@@ -8,7 +8,6 @@ type Props = {
   icon?: HeroIconProp;
   iconPosition?: "trailing" | "leading";
   isFull?: boolean;
-  hideText?: boolean;
   onClick?: () => void;
 };
 
@@ -42,7 +41,6 @@ function ButtonComponent(props: Props) {
     icon: Icon,
     iconPosition = "leading",
     isFull,
-    hideText,
     onClick,
   } = props;
 
@@ -60,7 +58,7 @@ function ButtonComponent(props: Props) {
 
   return (
     <button className={CLASSES.CONTAINER} onClick={onClick}>
-      {!hideText && text}
+      {text}
       {Icon && <Icon className={CLASSES.ICON} />}
     </button>
   );
