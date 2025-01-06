@@ -13,15 +13,15 @@ function NavItemComponent(props: Props) {
 
   const CLASSES = {
     CONTAINER: classNames(
-      "flex items-center text-sm cursor-pointer gap-1.5",
+      "flex items-center cursor-pointer gap-1.5",
       isDrawer ? "p-3 md:p-4 border-b justify-between" : "p-0 w-max",
       { "py-1.5 md:py-2 flex-row-reverse": isCapitalize },
     ),
-    NAV_ITEM: isCapitalize ? "text-base" : "uppercase tracking-wider",
+    NAV_ITEM: isCapitalize ? "text-base" : "text-sm uppercase tracking-wider",
     NAV_ITEM_ICON: classNames(
       "stroke-current",
       isCapitalize
-        ? "w-5 h-5 md:w-6 h-6 stroke-1"
+        ? "w-5 h-5 md:w-6 md:h-6 stroke-1"
         : "w-3.5 h-3.5 stroke-1.5 lg:stroke-2",
       { "md:w-5 md:h-5": isCapitalize },
     ),
