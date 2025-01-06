@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router";
 import { LayoutComponent } from "./components";
-import { ComponentsPage } from "./pages";
+import { ComponentsPage, HomePage } from "./pages";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <LayoutComponent />,
     children: [
-      { path: "", element: <p>Home</p> },
+      { path: "", element: <HomePage /> },
       { path: "components", element: <ComponentsPage /> },
     ],
   },
