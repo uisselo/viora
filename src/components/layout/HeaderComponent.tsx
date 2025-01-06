@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 import VioraLogo from "../../assets/viora_logo.svg";
 import { NAV_ITEMS } from "../../utils";
-import { ButtonComponent, TextInputComponent } from "../common";
+import { ButtonIconComponent, TextInputComponent } from "../common";
 import NavDrawerComponent from "./NavDrawerComponent";
 import NavItemComponent from "./NavItemComponent";
 
@@ -38,7 +38,7 @@ function HeaderComponent() {
     CONTENT:
       "container flex items-center justify-between py-3 content lg:py-6 custom-lg:grid custom-lg:grid-cols-12",
     CONTENT_COL_1: "flex items-center gap-12 custom-lg:col-span-8",
-    CONTENT_COL_2: "flex items-center gap-6 custom-lg:col-span-4",
+    CONTENT_COL_2: "flex items-center justify-end gap-6 custom-lg:col-span-4",
   };
 
   const toggleNavOverlay = () => {
@@ -62,27 +62,19 @@ function HeaderComponent() {
               hideLabel
             />
           </div>
-          <div className="flex items-center gap-6">
-            <ButtonComponent
-              hideText
+          <div className="flex items-center gap-1">
+            <ButtonIconComponent
               icon={ShoppingBagIcon}
-              variant="link"
-              size="xl"
+              badgeValue="100"
+              display="header"
             />
             <div className="hidden custom-lg:block">
-              <ButtonComponent
-                hideText
-                icon={UserCircleIcon}
-                variant="link"
-                size="xl"
-              />
+              <ButtonIconComponent icon={UserCircleIcon} display="header" />
             </div>
             <div className="block custom-lg:hidden">
-              <ButtonComponent
-                hideText
+              <ButtonIconComponent
                 icon={Bars3Icon}
-                variant="link"
-                size="xl"
+                display="header"
                 onClick={toggleNavOverlay}
               />
             </div>
