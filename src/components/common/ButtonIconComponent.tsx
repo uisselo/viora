@@ -6,7 +6,7 @@ type Props = {
   icon: HeroIconProp;
   badgeValue?: string;
   isBordered?: boolean;
-  height?: number;
+  size?: number;
   onClick?: () => void;
 };
 
@@ -31,11 +31,11 @@ function HeaderDisplay(props: Props) {
 }
 
 function DefaultDisplay(props: Props) {
-  const { icon: Icon, isBordered, onClick } = props;
+  const { icon: Icon, isBordered, size, onClick } = props;
 
   return (
     <button
-      style={{ width: `${props.height}px`, height: `${props.height}px` }}
+      style={{ width: `${size}px`, height: `${size}px` }}
       className={classNames(
         { "border border-gray-300": isBordered },
         "flex items-center justify-center bg-white min-w-8 min-h-8 aspect-ratio",
