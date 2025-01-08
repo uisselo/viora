@@ -5,8 +5,8 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { HEADER_NAV_ITEMS } from "@Config";
 import { ButtonComponent } from "@GlobalComponents";
-import { NAV_ITEMS } from "@Utilities";
 import NavItemComponent from "./NavItemComponent";
 
 type Props = { isOpen: boolean; onClick: () => void };
@@ -36,7 +36,7 @@ function NavDrawerComponent(props: Props) {
       >
         <nav>
           <ul className="flex flex-col">
-            {NAV_ITEMS.map((item, index) => (
+            {HEADER_NAV_ITEMS.map((item, index) => (
               <li key={index.toString()}>
                 <NavItemComponent
                   label={item.label}
