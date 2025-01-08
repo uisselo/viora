@@ -1,6 +1,11 @@
 import { createBrowserRouter } from "react-router";
-import { LayoutComponent } from "./components";
-import { ComponentsPage, HomePage } from "./pages";
+import { LayoutComponent } from "@GlobalComponents";
+import {
+  ComponentsPage,
+  HomePage,
+  ProductDetailsPage,
+  ShoppingBagPage,
+} from "@Pages";
 
 const router = createBrowserRouter([
   {
@@ -9,6 +14,8 @@ const router = createBrowserRouter([
     children: [
       { path: "", element: <HomePage /> },
       { path: "components", element: <ComponentsPage /> },
+      { path: "shopping-bag", element: <ShoppingBagPage /> },
+      { path: "product/:id", element: <ProductDetailsPage /> },
     ],
   },
 ]);
