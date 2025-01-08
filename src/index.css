@@ -35,33 +35,25 @@
 }
 
 @layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+  	}
+	
 	html {
 		@apply text-gray-800;
 	}
 }
 
-* {
-	box-sizing: border-box;
-}
-
-.container {
-	padding-left: 1rem;
-	padding-right: 1rem;
-	width: 100%;
-	min-width: 375px;
-	max-width: 1440px;
-}
-  
-@media (min-width: 768px) {
+@layer components {
 	.container {
-		padding-left: 2rem;
-		padding-right: 2rem;
+	  	min-width: 375px;
 	}
 }
-
-@media (min-width: 1024px) {
-	.container {
-		padding-left: 104px;
-		padding-right: 104px;
+  
+@layer utilities {
+	.flex-center {
+		@apply flex items-center justify-center;
 	}
 }
