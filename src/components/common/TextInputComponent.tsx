@@ -14,6 +14,7 @@ function TextInputComponent(props: Props) {
     hideLabel,
     icon: Icon,
     placeholder = "Placeholder",
+    id,
     className,
     ...inputProps
   } = props;
@@ -27,6 +28,7 @@ function TextInputComponent(props: Props) {
       )}
     >
       <input
+        id={id}
         type="text"
         className="block w-full appearance-none focus:outline-none focus:ring-0"
         placeholder={placeholder}
@@ -34,7 +36,7 @@ function TextInputComponent(props: Props) {
       />
       {!hideLabel && (
         <label
-          htmlFor="input_box"
+          htmlFor={id}
           className="absolute top-2 z-10 text-gray-600 text-xs md:text-sm bg-white px-1 transform -translate-y-4 -translate-x-1 origin-[0]"
         >
           {label}
