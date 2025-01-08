@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import type { HeroIconProp } from "../../utils";
+import type { ButtonHTMLAttributes } from "react";
+import { type HeroIconProp, cn } from "@Utilities";
 
 type Props = {
   text?: string;
@@ -8,13 +8,12 @@ type Props = {
   icon?: HeroIconProp;
   iconPosition?: "trailing" | "leading";
   isFull?: boolean;
-  onClick?: () => void;
-};
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const MAP_VARIANT = {
   primary: "text-white bg-primary",
   outline: "text-primary bg-none border-[1.5px] border-primary",
-  link: "text-primary bg-none px-0 py-0",
+  link: "text-primary bg-none p-0",
 };
 
 const MAP_SIZE = {
@@ -26,11 +25,11 @@ const MAP_SIZE = {
 };
 
 const MAP_ICON_SIZE = {
-  xs: "w-3 h-3",
-  sm: "w-4 h-4",
-  base: "w-[18px] h-[18px]",
-  lg: "w-5 h-5",
-  xl: "w-6 h-6",
+  xs: "size-3",
+  sm: "size-4",
+  base: "size-[18px]",
+  lg: "size-5",
+  xl: "size-6",
 };
 
 function ButtonComponent(props: Props) {
@@ -41,26 +40,31 @@ function ButtonComponent(props: Props) {
     icon: Icon,
     iconPosition = "leading",
     isFull,
-    onClick,
+    className,
+    ...buttonProps
   } = props;
 
-  const CLASSES = {
-    CONTAINER: classNames(
-      "flex font-semibold rounded justify-center items-center cursor-pointer",
-      isFull ? "w-full" : "w-max",
-      MAP_SIZE[size],
-      MAP_VARIANT[variant],
-      { "!p-0": variant === "link" },
-      { "flex-row-reverse": iconPosition === "trailing" },
-    ),
-    ICON: classNames("stroke-current stroke-1.5", MAP_ICON_SIZE[size]),
-  };
-
   return (
-    <button className={CLASSES.CONTAINER} onClick={onClick}>
-      {text}
-      {Icon && <Icon className={CLASSES.ICON} />}
-    </button>
+    <>
+      <button
+        className={cn(
+          "flex-center font-semibold rounded cursor-pointer",
+          { "flex-row-reverse": iconPosition === "trailing" },
+          isFull ? "w-full" : "w-max",
+          MAP_SIZE[size],
+          MAP_VARIANT[variant],
+          className,
+        )}
+        {...buttonProps}
+      >
+        {text}
+        {Icon && (
+          <Icon
+            className={cn("stroke-current stroke 1.5", MAP_ICON_SIZE[size])}
+          />
+        )}
+      </button>
+    </>
   );
 }
 
