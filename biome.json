@@ -27,7 +27,8 @@
 				"useButtonType": "off"
 			},
 			"style": {
-				"noNonNullAssertion": "warn"
+				"noNonNullAssertion": "warn",
+				"useNodejsImportProtocol": "off"
 			}
 		}
 	},
