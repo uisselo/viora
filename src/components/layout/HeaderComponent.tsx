@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router";
+import { isEmpty } from "lodash-es";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -7,13 +8,13 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { SVGs } from "@Assets";
+import { HEADER_NAV_ITEMS } from "@Config";
 import {
   BadgeComponent,
   ButtonIconComponent,
   TextInputComponent,
 } from "@GlobalComponents";
 import { useShoppingBagStore } from "@Modules";
-import { NAV_ITEMS } from "@Utilities";
 import NavDrawerComponent from "./NavDrawerComponent";
 import NavItemComponent from "./NavItemComponent";
 
@@ -25,8 +26,8 @@ function HeaderComponent() {
 
   return (
     <header className="container flex justify-between py-3 lg:py-6 lg:grid-cols-12">
-      <LeftContent />
-      <RightContent items={items} toggleNavOverlay={toggleNavOverlay} />
+      <LeftSideSection />
+      <RightSideSection items={items} toggleNavOverlay={toggleNavOverlay} />
       <NavDrawerComponent
         isOpen={isNavOverlayOpen}
         onClick={toggleNavOverlay}
@@ -35,7 +36,7 @@ function HeaderComponent() {
   );
 }
 
-function LeftContent() {
+function LeftSideSection() {
   return (
     <div className="flex items-center gap-8 lg:col-span-8">
       <Link to="/">
@@ -43,7 +44,7 @@ function LeftContent() {
       </Link>
       <nav className="hidden lg:block">
         <ul className="flex gap-8">
-          {NAV_ITEMS.map((item, index) => (
+          {HEADER_NAV_ITEMS.map((item, index) => (
             <li key={index.toString()}>
               <Link to={item.link}>
                 <NavItemComponent label={item.label} icon={item.icon} />
@@ -56,7 +57,7 @@ function LeftContent() {
   );
 }
 
-function RightContent<T>({
+function RightSideSection<T>({
   items,
   toggleNavOverlay,
 }: { items: T[]; toggleNavOverlay: () => void }) {
@@ -70,21 +71,27 @@ function RightContent<T>({
           hideLabel
         />
       </div>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-4">
         <Link to="/shopping-bag">
           <ButtonIconComponent icon={ShoppingBagIcon} className="p-0">
-            <div className="absolute right-0">
-              <div className="absolute left-0 -translate-x-2 translate-y-0.5">
-                <BadgeComponent text={String(items.length)} />
+            {!isEmpty(items.length) && (
+              <div className="absolute right-0">
+                <div className="absolute left-0 -translate-x-2 translate-y-0.5">
+                  <BadgeComponent text={String(items.length)} />
+                </div>
               </div>
-            </div>
+            )}
           </ButtonIconComponent>
         </Link>
         <div className="hidden lg:block">
-          <ButtonIconComponent icon={UserCircleIcon} />
+          <ButtonIconComponent icon={UserCircleIcon} className="p-0" />
         </div>
         <div className="block lg:hidden">
-          <ButtonIconComponent icon={Bars3Icon} onClick={toggleNavOverlay} />
+          <ButtonIconComponent
+            icon={Bars3Icon}
+            className="p-0"
+            onClick={toggleNavOverlay}
+          />
         </div>
       </div>
     </div>
