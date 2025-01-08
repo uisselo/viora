@@ -1,6 +1,5 @@
-import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import classNames from "classnames";
 import { forwardRef, useEffect, useState } from "react";
+import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonIconComponent from "./ButtonIconComponent";
 
 type Props = {
@@ -10,28 +9,29 @@ type Props = {
   onChange?: (value: number) => void;
 };
 
-const CLASSES = {
-  CONTAINER: "flex items-center justify-center",
-  BORDER: "border border-gray-300",
-  TEXT: "text-sm font-medium text-center break-words md:text-base",
-};
+const QuantityComponent = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { isDisplayOnly } = props;
 
-const applyBorderedContainer = (...classes: string[]) =>
-  classNames(...classes, CLASSES.CONTAINER, CLASSES.BORDER);
+  const DisplayComponent = isDisplayOnly ? DefaultDisplay : AdjustmentDisplay;
+
+  return <DisplayComponent ref={ref} {...props} />;
+});
 
 function DefaultDisplay(props: Props) {
   return (
-    <div className={applyBorderedContainer("w-9 h-9")}>
-      <p className={CLASSES.TEXT}>{props.value}</p>
+    <div className="border border-gray-300 flex-center size-9">
+      <p className="text-sm font-medium text-center break-words md:text-base">
+        {props.value}
+      </p>
     </div>
   );
 }
 
 const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { limit = 10, onChange } = props;
-  const [number, setNumber] = useState<number>(0);
+  const [number, setNumber] = useState<number>(1);
 
-  const onClickMinus = () => setNumber((prev) => Math.max(0, prev - 1));
+  const onClickMinus = () => setNumber((prev) => Math.max(1, prev - 1));
   const onClickPlus = () => setNumber((prev) => Math.min(limit, prev + 1));
 
   useEffect(() => {
@@ -41,22 +41,24 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
   }, [number, onChange]);
 
   return (
-    <div ref={ref} className={applyBorderedContainer("px-1")}>
-      <ButtonIconComponent icon={MinusIcon} onClick={onClickMinus} />
-      <div className={classNames("w-9 h-9", CLASSES.CONTAINER)}>
-        <p className={CLASSES.TEXT}>{number}</p>
+    <div ref={ref} className="px-1 border border-gray-300 flex-center w-max">
+      <ButtonIconComponent
+        icon={MinusIcon}
+        onClick={onClickMinus}
+        iconClassName="size-3.5 md:size-4 stroke-gray-800"
+      />
+      <div className="flex-center size-9 max-w-9">
+        <p className="text-sm font-medium text-center break-words md:text-base">
+          {number}
+        </p>
       </div>
-      <ButtonIconComponent icon={PlusIcon} onClick={onClickPlus} />
+      <ButtonIconComponent
+        icon={PlusIcon}
+        onClick={onClickPlus}
+        iconClassName="size-3.5 md:size-4 stroke-gray-800"
+      />
     </div>
   );
-});
-
-const QuantityComponent = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { isDisplayOnly } = props;
-
-  const DisplayComponent = isDisplayOnly ? DefaultDisplay : AdjustmentDisplay;
-
-  return <DisplayComponent {...props} ref={ref} />;
 });
 
 export default QuantityComponent;
