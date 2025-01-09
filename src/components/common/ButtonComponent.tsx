@@ -40,6 +40,7 @@ function ButtonComponent(props: Props) {
     icon: Icon,
     iconPosition = "leading",
     isFull,
+    disabled,
     className,
     ...buttonProps
   } = props;
@@ -53,6 +54,11 @@ function ButtonComponent(props: Props) {
           isFull ? "w-full" : "w-max",
           MAP_SIZE[size],
           MAP_VARIANT[variant],
+          disabled
+            ? variant !== "link"
+              ? "bg-gray-400 cursor-not-allowed"
+              : "text-gray-800 cursor-not-allowed"
+            : "",
           className,
         )}
         {...buttonProps}
