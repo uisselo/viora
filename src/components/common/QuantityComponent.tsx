@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useState } from "react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonIconComponent from "./ButtonIconComponent";
 
@@ -28,17 +28,20 @@ function DefaultDisplay(props: Props) {
 }
 
 const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { limit = 10, onChange } = props;
-  const [number, setNumber] = useState<number>(1);
+  const { value, limit = 10, onChange } = props;
+  const [number, setNumber] = useState<number>(value || 1);
 
-  const onClickMinus = () => setNumber((prev) => Math.max(1, prev - 1));
-  const onClickPlus = () => setNumber((prev) => Math.min(limit, prev + 1));
+  const onClickMinus = () => {
+    const newNumber = Math.max(1, number - 1);
+    setNumber(newNumber);
+    if (onChange) onChange(newNumber);
+  };
 
-  useEffect(() => {
-    if (onChange) {
-      onChange(number);
-    }
-  }, [number, onChange]);
+  const onClickPlus = () => {
+    const newNumber = Math.min(limit, number + 1);
+    setNumber(newNumber);
+    if (onChange) onChange(newNumber);
+  };
 
   return (
     <div ref={ref} className="px-1 border border-gray-300 flex-center w-max">
