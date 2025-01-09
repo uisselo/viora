@@ -1,20 +1,19 @@
-import type { HTMLAttributes } from "react";
-import { cn, type HeroIconProp } from "@Utilities";
+import type { InputHTMLAttributes } from "react";
+import { type HeroIconProp, cn } from "@Utilities";
 
 type Props = {
   label?: string;
   hideLabel?: boolean;
   icon?: HeroIconProp;
-  placeholder?: string;
-} & HTMLAttributes<HTMLInputElement>;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 function TextInputComponent(props: Props) {
   const {
     label = "Label",
     hideLabel,
     icon: Icon,
-    placeholder = "Placeholder",
     id,
+    placeholder = "Placeholder",
     className,
     ...inputProps
   } = props;
