@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Images } from "@Assets";
 import { CATEGORIES } from "@Config";
@@ -29,13 +28,9 @@ function HomePage() {
 
 function HeroSection() {
   const { width } = useWindowSize();
-
-  const buttonSize = useMemo(() => {
-    if (width) {
-      return width > 1024 ? "lg" : width > 768 ? "sm" : "xs";
-    }
-    return "xs";
-  }, [width]);
+  const windowWidth = width || 0;
+  const buttonSize =
+    windowWidth > 1024 ? "lg" : windowWidth > 768 ? "sm" : "xs";
 
   return (
     <div className="relative aspect-[21/9] rounded overflow-hidden text-primary">
