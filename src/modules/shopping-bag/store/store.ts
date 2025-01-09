@@ -6,6 +6,14 @@ const useShoppingBagStore = create<ShoppingBagState>((set) => ({
   totalAmount: "",
   setItems: (items) => set({ items }),
   setTotalAmount: (totalAmount) => set({ totalAmount }),
+  updateItem: (updatedItem) =>
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.product.id === updatedItem.product.id
+          ? { ...item, ...updatedItem }
+          : item,
+      ),
+    })),
 }));
 
 export default useShoppingBagStore;

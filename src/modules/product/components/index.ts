@@ -1,2 +1,2 @@
 export * from "./ProductItemComponent";
-export { default as ProductsComponent } from "./ProductsComponent";
+export { default as ProductsCarouselComponent } from "./ProductsCarouselComponent";

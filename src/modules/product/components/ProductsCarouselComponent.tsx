@@ -5,7 +5,7 @@ import { ProductItemComponent } from "./ProductItemComponent";
 
 type Props = { title?: string; data: ProductItem[] };
 
-function ProductsComponent(props: Props) {
+function ProductsCarouselComponent(props: Props) {
   const { title, data } = props;
 
   return (
@@ -29,4 +29,4 @@ function ProductsComponent(props: Props) {
   );
 }
 
-export default ProductsComponent;
+export default ProductsCarouselComponent;

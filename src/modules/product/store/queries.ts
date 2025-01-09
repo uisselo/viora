@@ -7,26 +7,21 @@ export function useProductQueries(id?: string) {
     () => ProductsApi.fetchProductsByCategory("beauty"),
   );
 
-  const { isLoading: isFragranceProductsLoading, data: fragrance } = useQuery(
-    "fragrance",
-    () => ProductsApi.fetchProductsByCategory("fragrance"),
+  const { isLoading: isBagProductsLoading, data: bags } = useQuery("bags", () =>
+    ProductsApi.fetchProductsByCategory("womens-bags"),
   );
 
   const { isLoading: isProductDetailsLoading, data: productDetails } = useQuery(
     ["product", id],
-    () => {
-      if (id) {
-        ProductsApi.fetchProductDetails(id);
-      }
-    },
+    () => ProductsApi.fetchProductDetails(id!),
     { enabled: !!id },
   );
 
   return {
     isBeautyProductsLoading,
     beautyProducts: beauty?.products,
-    isFragranceProductsLoading,
-    fragranceProducts: fragrance?.products,
+    isBagProductsLoading,
+    bagProducts: bags?.products,
     isProductDetailsLoading,
     productDetails,
   };
