@@ -1,3 +1,4 @@
+export { default as AccordionComponent } from "./AccordionComponent";
 export { default as BadgeComponent } from "./BadgeComponent";
 export { default as ButtonComponent } from "./ButtonComponent";
 export { default as ButtonIconComponent } from "./ButtonIconComponent";
