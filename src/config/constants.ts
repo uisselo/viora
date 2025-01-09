@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Images } from "@Assets";
 
-export const API_URL = "https://dummyjson.com/";
+export const API_URL = "https://dummyjson.com";
 
 export const HEADER_NAV_ITEMS = [
   { label: "Categories", link: "", icon: ChevronDownIcon },
