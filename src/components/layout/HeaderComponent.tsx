@@ -74,7 +74,7 @@ function RightSideSection<T>({
       <div className="flex items-center gap-4">
         <Link to="/shopping-bag">
           <ButtonIconComponent icon={ShoppingBagIcon} className="p-0">
-            {!isEmpty(items.length) && (
+            {!isEmpty(items) && (
               <div className="absolute right-0">
                 <div className="absolute left-0 -translate-x-2 translate-y-0.5">
                   <BadgeComponent text={String(items.length)} />
