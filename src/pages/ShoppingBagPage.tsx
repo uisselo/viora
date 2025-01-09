@@ -65,9 +65,9 @@ function ShoppingBagItemsSection({ data }: { data: ShoppingBagItem[] }) {
               <ProductItemComponent.Price />
             </div>
             <div className="flex flex-col items-end justify-between col-span-1 gap-1 md:col-span-2">
-              <p className="text-sm font-semibold md:text-base whitespace-nowrap">
-                $ {round(Number(item.totalPrice), 2)}
-              </p>
+              <ProductItemComponent.TotalPrice
+                value={round(Number(item.totalPrice), 2)}
+              />
               <div className="flex items-center self-end gap-2">
                 <ButtonIconComponent
                   icon={TrashIcon}
