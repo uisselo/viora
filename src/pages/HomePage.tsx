@@ -3,10 +3,10 @@ import { useWindowSize } from "@uidotdev/usehooks";
 import { Images } from "@Assets";
 import { CATEGORIES } from "@Config";
 import { ButtonComponent } from "@GlobalComponents";
-import { ProductsComponent, useProductQueries } from "@Modules";
+import { ProductsCarouselComponent, useProductQueries } from "@Modules";
 
 function HomePage() {
-  const { beautyData } = useProductQueries();
+  const { beautyProducts, bagProducts } = useProductQueries();
 
   return (
     <div className="flex flex-col h-full gap-8 md:gap-12 lg:gap-16">
@@ -14,8 +14,14 @@ function HomePage() {
         <HeroSection />
         <CategoriesSection />
       </section>
-      {beautyData && (
-        <ProductsComponent data={beautyData} title="Bestsellers" />
+      {beautyProducts && bagProducts && (
+        <>
+          <ProductsCarouselComponent
+            data={beautyProducts}
+            title="Bestsellers"
+          />
+          <ProductsCarouselComponent data={bagProducts} title="New Arrivals" />
+        </>
       )}
     </div>
   );
