@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { ProductsApi } from "./api";
 
-export function useProductQueries(id?: string) {
+export function useProductQueries(id = "") {
   const { isLoading: isBeautyProductsLoading, data: beauty } = useQuery(
     "beauty",
     () => ProductsApi.fetchProductsByCategory("beauty"),
@@ -13,7 +13,7 @@ export function useProductQueries(id?: string) {
 
   const { isLoading: isProductDetailsLoading, data: productDetails } = useQuery(
     ["product", id],
-    () => ProductsApi.fetchProductDetails(id!),
+    () => ProductsApi.fetchProductDetails(id),
     { enabled: !!id },
   );
 
