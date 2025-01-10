@@ -7,10 +7,10 @@ import {
   QuantityComponent,
   TextInputComponent,
 } from "@GlobalComponents";
-import { ProductItemComponent, useProductQueries } from "@Modules";
+import { ProductItemComponent, useProduct } from "@Modules";
 
 function ComponentsPage() {
-  const { beautyData } = useProductQueries();
+  const { beautyProducts } = useProduct();
 
   return (
     <div className="flex flex-col gap-12">
@@ -30,9 +30,9 @@ function ComponentsPage() {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 md:grid-cols-12 lg:gap-5">
-        {beautyData && (
+        {beautyProducts && (
           <div className="flex flex-col col-span-2 gap-2 gap-12 md:col-span-4 lg:col-span-3">
-            <ProductItemComponent data={beautyData[0]}>
+            <ProductItemComponent data={beautyProducts[0]}>
               <ProductItemComponent.Image />
               <div className="flex gap-3">
                 <ProductItemComponent.Title />
