@@ -3,10 +3,11 @@ import { useProductQueries } from "./store";
 
 export function useProduct() {
   const { id } = useParams();
-  const { productDetails, bagProducts } = useProductQueries(id);
+  const { productDetails, beautyProducts, bagProducts } = useProductQueries(id);
 
   return {
     productDetails,
+    beautyProducts,
     bagProducts,
   };
 }
