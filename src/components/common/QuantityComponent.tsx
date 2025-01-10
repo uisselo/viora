@@ -6,6 +6,7 @@ type Props = {
   value?: number;
   limit?: number;
   isDisplayOnly?: boolean;
+  isButtonDisabled?: boolean;
   onChange?: (value: number) => void;
 };
 
@@ -28,17 +29,13 @@ function DefaultDisplay(props: Props) {
 }
 
 const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { value, limit = 10, onChange } = props;
+  const { value, limit = 10, isButtonDisabled, onChange } = props;
   const [number, setNumber] = useState<number>(value || 1);
 
-  const onClickMinus = () => {
-    const newNumber = Math.max(1, number - 1);
-    setNumber(newNumber);
-    if (onChange) onChange(newNumber);
-  };
-
-  const onClickPlus = () => {
-    const newNumber = Math.min(limit, number + 1);
+  const onClickButtonIcon = (type: "minus" | "plus") => {
+    if (isButtonDisabled) return;
+    const newNumber =
+      type === "minus" ? Math.max(1, number - 1) : Math.min(limit, number + 1);
     setNumber(newNumber);
     if (onChange) onChange(newNumber);
   };
@@ -47,8 +44,9 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
     <div ref={ref} className="px-1 border border-gray-300 flex-center w-max">
       <ButtonIconComponent
         icon={MinusIcon}
-        onClick={onClickMinus}
         iconClassName="size-3.5 md:size-4 stroke-gray-800"
+        disabled={isButtonDisabled}
+        onClick={() => onClickButtonIcon("minus")}
       />
       <div className="flex-center size-9 max-w-9">
         <p className="text-sm font-medium text-center break-words md:text-base">
@@ -57,8 +55,9 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
       </div>
       <ButtonIconComponent
         icon={PlusIcon}
-        onClick={onClickPlus}
         iconClassName="size-3.5 md:size-4 stroke-gray-800"
+        disabled={isButtonDisabled}
+        onClick={() => onClickButtonIcon("plus")}
       />
     </div>
   );
