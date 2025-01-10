@@ -28,9 +28,6 @@ function HomePage() {
 
 function HeroSection() {
   const { width } = useWindowSize();
-  const windowWidth = width || 0;
-  const buttonSize =
-    windowWidth > 1024 ? "lg" : windowWidth > 768 ? "sm" : "xs";
 
   return (
     <div className="relative aspect-[21/9] rounded overflow-hidden text-primary">
@@ -43,7 +40,12 @@ function HeroSection() {
             </p>
             <p className="font-semibold md:text-xl">Special Offer</p>
           </div>
-          <ButtonComponent text="Shop Now" size={buttonSize} />
+          {width && (
+            <ButtonComponent
+              text="Shop Now"
+              size={width > 1024 ? "lg" : width > 768 ? "sm" : "xs"}
+            />
+          )}
         </div>
       </div>
     </div>
