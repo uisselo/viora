@@ -1,5 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { useProduct, useShoppingBagStore } from "@Modules";
+import { sumBy } from "lodash-es";
+import {
+  type ShoppingBagItem,
+  useProduct,
+  useShoppingBagStore,
+} from "@Modules";
 
 export function useShoppingBag(quantity = 0) {
   const { productDetails } = useProduct();
@@ -8,8 +13,30 @@ export function useShoppingBag(quantity = 0) {
   const addItem = useShoppingBagStore((state) => state.addItem);
   const updateItem = useShoppingBagStore((state) => state.updateItem);
 
-  const isDisabled = useMemo(
-    () => !!items.find((item) => item.quantity === item.product.stock),
+  const itemInBag = useMemo(
+    () =>
+      items &&
+      productDetails &&
+      items.find((item) => item.product.id === productDetails.id),
+    [items, productDetails],
+  );
+
+  const isDisabled = useMemo(() => {
+    if (!items || !productDetails) return false;
+
+    return items.some((item) => itemInBag?.quantity === item.product.stock);
+  }, [items, productDetails, itemInBag]);
+
+  const limit = useMemo(() => {
+    if (!productDetails) return;
+
+    return itemInBag
+      ? productDetails.stock - itemInBag.quantity
+      : productDetails.stock;
+  }, [productDetails, itemInBag]);
+
+  const totalAmount = useMemo(
+    () => items && sumBy(items, "totalPrice"),
     [items],
   );
 
@@ -18,13 +45,12 @@ export function useShoppingBag(quantity = 0) {
 
     const total = productDetails.price * quantity;
     const totalPriceDisplay = quantity === 0 ? productDetails.price : total;
-    const item = items.find((item) => item.product.id === productDetails.id);
 
-    if (item) {
+    if (itemInBag) {
       updateItem({
-        ...item,
-        quantity: item.quantity + quantity,
-        totalPrice: String(Number(item.totalPrice) + totalPriceDisplay),
+        ...itemInBag,
+        quantity: itemInBag.quantity + quantity,
+        totalPrice: itemInBag.totalPrice + totalPriceDisplay,
       });
       return;
     }
@@ -32,15 +58,31 @@ export function useShoppingBag(quantity = 0) {
     addItem({
       product: productDetails,
       quantity,
-      totalPrice: String(totalPriceDisplay),
+      totalPrice: totalPriceDisplay,
     });
-  }, [productDetails, quantity, isDisabled, items, updateItem, addItem]);
+  }, [quantity, itemInBag, productDetails, isDisabled, updateItem, addItem]);
+
+  const onChangeQuantity = useCallback(
+    (quantity: number, item: ShoppingBagItem) => {
+      if (!items && quantity === item.quantity) return;
+
+      updateItem({
+        ...item,
+        quantity,
+        totalPrice: quantity * item.product.price,
+      });
+    },
+    [items, updateItem],
+  );
 
   return {
     items,
+    totalAmount,
     isDisabled,
+    limit,
     addItem,
     updateItem,
     onClickAddToBag,
+    onChangeQuantity,
   };
 }
