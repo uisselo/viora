@@ -14,12 +14,11 @@ import {
   ButtonIconComponent,
   TextInputComponent,
 } from "@GlobalComponents";
-import { useShoppingBagStore } from "@Modules";
+import { useShoppingBag } from "@Modules";
 import NavDrawerComponent from "./NavDrawerComponent";
 import NavItemComponent from "./NavItemComponent";
 
 function HeaderComponent() {
-  const items = useShoppingBagStore((state) => state.items);
   const [isNavOverlayOpen, setIsNavOverlayOpen] = useState(false);
 
   const toggleNavOverlay = () => setIsNavOverlayOpen(!isNavOverlayOpen);
@@ -27,7 +26,7 @@ function HeaderComponent() {
   return (
     <header className="container flex justify-between py-3 lg:py-6 lg:grid-cols-12">
       <LeftSideSection />
-      <RightSideSection items={items} toggleNavOverlay={toggleNavOverlay} />
+      <RightSideSection toggleNavOverlay={toggleNavOverlay} />
       <NavDrawerComponent
         isOpen={isNavOverlayOpen}
         onClick={toggleNavOverlay}
@@ -45,7 +44,7 @@ function LeftSideSection() {
       <nav className="hidden lg:block">
         <ul className="flex gap-8">
           {HEADER_NAV_ITEMS.map((item, index) => (
-            <li key={index.toString()}>
+            <li key={String(index)}>
               <Link to={item.link}>
                 <NavItemComponent label={item.label} icon={item.icon} />
               </Link>
@@ -57,10 +56,11 @@ function LeftSideSection() {
   );
 }
 
-function RightSideSection<T>({
-  items,
+function RightSideSection({
   toggleNavOverlay,
-}: { items: T[]; toggleNavOverlay: () => void }) {
+}: { toggleNavOverlay: () => void }) {
+  const { items } = useShoppingBag();
+
   return (
     <div className="flex items-center justify-end gap-6 lg:col-span-4">
       <div className="hidden md:block">

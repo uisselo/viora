@@ -37,7 +37,7 @@ function NavDrawerComponent(props: Props) {
         <nav>
           <ul className="flex flex-col">
             {HEADER_NAV_ITEMS.map((item, index) => (
-              <li key={index.toString()}>
+              <li key={String(index)}>
                 <NavItemComponent
                   label={item.label}
                   isDrawer

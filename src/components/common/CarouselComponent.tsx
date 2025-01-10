@@ -21,7 +21,7 @@ function CarouselComponent<T>(props: Props<T>) {
     <Swiper breakpoints={breakpoints}>
       {children &&
         items.map((item, index) => (
-          <SwiperSlide key={index.toString()}>{children({ item })}</SwiperSlide>
+          <SwiperSlide key={String(index)}>{children({ item })}</SwiperSlide>
         ))}
     </Swiper>
   );
