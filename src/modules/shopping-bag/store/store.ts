@@ -4,8 +4,10 @@ import type { ShoppingBagState } from "./types";
 const useShoppingBagStore = create<ShoppingBagState>((set) => ({
   items: [],
   totalAmount: "",
-  setItems: (items) => set({ items }),
-  setTotalAmount: (totalAmount) => set({ totalAmount }),
+  addItem: (item) =>
+    set((state) => ({
+      items: [...state.items, item],
+    })),
   updateItem: (updatedItem) =>
     set((state) => ({
       items: state.items.map((item) =>
@@ -14,6 +16,7 @@ const useShoppingBagStore = create<ShoppingBagState>((set) => ({
           : item,
       ),
     })),
+  setTotalAmount: (totalAmount) => set({ totalAmount }),
 }));
 
 export default useShoppingBagStore;

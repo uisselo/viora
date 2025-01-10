@@ -9,7 +9,7 @@ export type ShoppingBagItem = {
 export type ShoppingBagState = {
   items: ShoppingBagItem[];
   totalAmount: string;
-  setItems: (data: ShoppingBagItem[]) => void;
+  addItem: (data: ShoppingBagItem) => void;
   setTotalAmount: (data: string) => void;
   updateItem: (data: ShoppingBagItem) => void;
 };
