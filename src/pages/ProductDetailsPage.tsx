@@ -1,107 +1,121 @@
-import { useCallback, useMemo, useState } from "react";
-import { useParams } from "react-router";
-import { find, map, some } from "lodash-es";
+import { useState } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { ButtonComponent, QuantityComponent } from "@GlobalComponents";
 import {
-  type ProductItem,
+  AccordionComponent,
+  ButtonComponent,
+  QuantityComponent,
+} from "@GlobalComponents";
+import {
+  PRODUCT_CONSTANTS,
   ProductItemComponent,
-  useProductQueries,
-  useShoppingBagStore,
+  ProductsCarouselComponent,
+  useProduct,
+  useShoppingBag,
 } from "@Modules";
+import { formatDate } from "@Utilities";
 
 function ProductDetailsPage() {
-  const [quantity, setQuantity] = useState<number>(1);
-  const { id } = useParams();
-  const { productDetails } = useProductQueries(id);
+  const { productDetails, bagProducts } = useProduct();
 
-  if (!productDetails) return;
+  if (!productDetails) return null;
 
   return (
-    <div className="grid grid-cols-4 gap-4 md:grid-cols-12 lg:gap-5">
+    <div className="grid-container">
       <ProductItemComponent data={productDetails} isProductPage>
-        <div className="flex flex-col w-full col-span-4 gap-8 md:col-span-12 md:grid md:grid-cols-12 md:gap-4 lg:gap-5 lg:col-start-2 lg:col-span-10 lg:grid-cols-10">
+        <div className="flex flex-col w-full col-span-4 gap-8 md:gap-4 md:col-span-12 md:grid md:grid-cols-12 lg:gap-5 lg:col-start-2">
           <div className="md:col-span-6 lg:col-span-5">
             <ProductItemComponent.Image />
           </div>
-          <div className="space-y-8 md:space-y-6 md:col-span-6 lg:col-span-5">
-            <div className="flex flex-col gap-3">
-              <div>
-                <ProductItemComponent.Title />
-                <ProductItemComponent.Price />
-              </div>
-              <p className="text-sm md:text-base">
-                {productDetails.description}
-              </p>
-            </div>
-            <div className="space-y-1.5">
-              <QuantityComponent
-                value={quantity}
-                onChange={setQuantity}
-                limit={productDetails.stock}
-              />
-              <p className="text-sm md:text-base">
-                {productDetails.availabilityStatus}
-              </p>
-            </div>
-            <AddToBagButton data={productDetails} quantity={quantity} />
+          <div className="space-y-8 md:col-span-6 lg:col-span-5">
+            <InformationSection />
+            <AccordionSection />
           </div>
         </div>
       </ProductItemComponent>
+      {bagProducts && (
+        <div className="col-span-4 md:col-span-12">
+          <ProductsCarouselComponent
+            data={bagProducts}
+            title="Similar Products"
+          />
+        </div>
+      )}
     </div>
   );
 }
 
-function AddToBagButton({
-  data,
-  quantity,
-}: { data: ProductItem; quantity: number }) {
+function InformationSection() {
+  const [quantity, setQuantity] = useState<number>(1);
+
   const { width } = useWindowSize();
-  const items = useShoppingBagStore((state) => state.items);
-  const setItems = useShoppingBagStore((state) => state.setItems);
+  const { productDetails } = useProduct();
+  const { isDisabled, onClickAddToBag } = useShoppingBag(quantity);
 
-  const isDisabled = useMemo(
-    () => !!find(items, (item) => item.quantity === item.product.stock),
-    [items],
-  );
-
-  const onClickAddToBag = useCallback(() => {
-    if (!data || isDisabled) return;
-
-    const total = data.price * quantity;
-    const totalPriceDisplay = quantity === 0 ? data.price : total;
-    const isItemInBag = some(items, (item) => item.product.id === data.id);
-
-    const updatedItems = isItemInBag
-      ? map(items, (item) =>
-          item.product.id === data.id
-            ? {
-                ...item,
-                quantity: item.quantity + quantity,
-                totalPrice: String(Number(item.totalPrice) + totalPriceDisplay),
-              }
-            : item,
-        )
-      : [
-          ...items,
-          {
-            product: data,
-            quantity,
-            totalPrice: String(totalPriceDisplay),
-          },
-        ];
-
-    setItems(updatedItems);
-  }, [data, quantity, isDisabled, items, setItems]);
+  if (!productDetails) return null;
 
   return (
-    <ButtonComponent
-      text="Add to Bag"
-      size={(width || 0) < 768 ? "sm" : "base"}
-      isFull={(width || 0) < 1024}
-      onClick={onClickAddToBag}
-      disabled={isDisabled}
-    />
+    <div className="space-y-8 md:space-y-6">
+      <div className="flex flex-col gap-3">
+        <div>
+          <ProductItemComponent.Title />
+          <ProductItemComponent.Price />
+        </div>
+        <p className="text-sm md:text-base">{productDetails.description}</p>
+      </div>
+      <div className="space-y-1.5">
+        <QuantityComponent
+          value={quantity}
+          onChange={setQuantity}
+          limit={productDetails.stock}
+        />
+        <p className="text-sm md:text-base">
+          {productDetails.availabilityStatus}
+        </p>
+      </div>
+      <ButtonComponent
+        text="Add to Bag"
+        size={(width || 0) < 768 ? "sm" : "base"}
+        isFull={(width || 0) < 1024}
+        onClick={onClickAddToBag}
+        disabled={isDisabled}
+      />
+    </div>
+  );
+}
+
+function AccordionSection() {
+  const { DELIVERY, REVIEWS } = PRODUCT_CONSTANTS;
+  const { productDetails } = useProduct();
+
+  if (!productDetails) return null;
+
+  return (
+    <div className="space-y-0.5">
+      <AccordionComponent>
+        <AccordionComponent.Button text={DELIVERY.TITLE} />
+        <AccordionComponent.Panel text={DELIVERY.INFO} />
+      </AccordionComponent>
+      <AccordionComponent>
+        <AccordionComponent.Button
+          text={REVIEWS.TITLE(productDetails.reviews.length)}
+        />
+        <AccordionComponent.Panel className="p-0 md:p-0">
+          {productDetails.reviews.map((item, index) => (
+            <div key={String(index)} className="p-3 md:p-4 space-y-3.5">
+              <div>
+                <p className="text-sm font-semibold md:text-base">
+                  {item.reviewerName}
+                </p>
+                <span className="text-xs text-gray-500 md:text-sm">
+                  {formatDate(item.date, "M/DD/YYYY")}
+                </span>
+              </div>
+              <p>{item.comment}</p>
+            </div>
+          ))}
+        </AccordionComponent.Panel>
+      </AccordionComponent>
+    </div>
   );
 }
 
