@@ -1,0 +1,49 @@
+import type { TextareaHTMLAttributes } from "react";
+import { cn, type HeroIconProp } from "@Utilities";
+
+type Props = {
+  label?: string;
+  hideLabel?: boolean;
+  icon?: HeroIconProp;
+} & TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+function TextAreaComponent(props: Props) {
+  const {
+    label = "Label",
+    hideLabel,
+    icon: Icon,
+    id,
+    placeholder = "Placeholder",
+    className,
+    ...textAreaProps
+  } = props;
+  return (
+    <div
+      className={cn(
+        "relative flex items-center px-3 w-full bg-white text-sm md:text-base rounded border border-gray-400",
+        hideLabel ? "py-2" : "py-3",
+        className,
+      )}
+    >
+      <textarea
+        id={id}
+        className="block w-full appearance-none focus:outline-none focus:ring-0"
+        placeholder={placeholder}
+        {...textAreaProps}
+      />
+      {!hideLabel && (
+        <label
+          htmlFor={id}
+          className="absolute top-2 z-10 text-gray-600 text-xs md:text-sm bg-white px-1 transform -translate-y-4 -translate-x-1 origin-[0]"
+        >
+          {label}
+        </label>
+      )}
+      {Icon && (
+        <Icon className="text-gray-400 stroke-current stroke-2 size-4 md:size-5" />
+      )}
+    </div>
+  );
+}
+
+export default TextAreaComponent;
