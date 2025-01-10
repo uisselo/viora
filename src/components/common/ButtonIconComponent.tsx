@@ -15,6 +15,7 @@ function ButtonIconComponent(props: Props) {
     icon: Icon,
     iconClassName,
     containerSize,
+    disabled,
     className,
     ...buttonProps
   } = props;
@@ -22,7 +23,11 @@ function ButtonIconComponent(props: Props) {
   return (
     <button
       style={{ width: `${containerSize}px`, height: `${containerSize}px` }}
-      className={cn("relative flex-center p-2 w-max", className)}
+      className={cn(
+        "relative flex-center p-2 w-max",
+        { "cursor-not-allowed": disabled },
+        className,
+      )}
       {...buttonProps}
     >
       <Icon
