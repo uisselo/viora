@@ -6,7 +6,6 @@ import { ButtonComponent } from "@GlobalComponents";
 
 function FooterComponent() {
   const { width } = useWindowSize();
-  const buttonSize = (width || 0) > 768 ? "sm" : "xs";
 
   const renderSection = (title: string, links: string[]) => (
     <div key={title} className="flex flex-col gap-3 md:col-span-2">
@@ -16,7 +15,13 @@ function FooterComponent() {
       <ul className="flex flex-wrap gap-4 md:flex-col md:gap-2">
         {links.map((item) => (
           <li key={item}>
-            <ButtonComponent text={item} variant="link" size={buttonSize} />
+            {width && (
+              <ButtonComponent
+                text={item}
+                variant="link"
+                size={width > 768 ? "sm" : "xs"}
+              />
+            )}
           </li>
         ))}
       </ul>

@@ -14,7 +14,6 @@ type Props = { isOpen: boolean; onClick: () => void };
 function NavDrawerComponent(props: Props) {
   const { isOpen, onClick } = props;
   const { width } = useWindowSize();
-  const buttonSize = (width || 0) < 768 ? "sm" : "base";
 
   return (
     <div
@@ -67,13 +66,21 @@ function NavDrawerComponent(props: Props) {
             </li>
           </ul>
           <div className="flex gap-3">
-            <ButtonComponent
-              text="Login"
-              variant="outline"
-              size={buttonSize}
-              isFull
-            />
-            <ButtonComponent text="Create Account" size={buttonSize} isFull />
+            {width && (
+              <>
+                <ButtonComponent
+                  text="Login"
+                  variant="outline"
+                  size={width < 768 ? "sm" : "base"}
+                  isFull
+                />
+                <ButtonComponent
+                  text="Create Account"
+                  size={width < 768 ? "sm" : "base"}
+                  isFull
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
