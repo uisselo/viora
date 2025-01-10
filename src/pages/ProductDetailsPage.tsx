@@ -22,7 +22,7 @@ function ProductDetailsPage() {
   return (
     <div className="grid-container">
       <ProductItemComponent data={productDetails} isProductPage>
-        <div className="flex flex-col w-full col-span-4 gap-8 md:gap-4 md:col-span-12 md:grid md:grid-cols-12 lg:gap-5 lg:col-start-2">
+        <div className="flex flex-col col-span-4 gap-8 md:gap-4 md:col-span-12 md:grid md:grid-cols-12 lg:gap-5 lg:col-start-2">
           <div className="md:col-span-6 lg:col-span-5">
             <ProductItemComponent.Image />
           </div>
@@ -49,7 +49,7 @@ function InformationSection() {
 
   const { width } = useWindowSize();
   const { productDetails } = useProduct();
-  const { isDisabled, onClickAddToBag } = useShoppingBag(quantity);
+  const { isDisabled, limit, onClickAddToBag } = useShoppingBag(quantity);
 
   if (!productDetails) return null;
 
@@ -65,20 +65,30 @@ function InformationSection() {
       <div className="space-y-1.5">
         <QuantityComponent
           value={quantity}
+          limit={limit}
+          isButtonDisabled={isDisabled}
           onChange={setQuantity}
-          limit={productDetails.stock}
         />
         <p className="text-sm md:text-base">
           {productDetails.availabilityStatus}
         </p>
       </div>
-      <ButtonComponent
-        text="Add to Bag"
-        size={(width || 0) < 768 ? "sm" : "base"}
-        isFull={(width || 0) < 1024}
-        onClick={onClickAddToBag}
-        disabled={isDisabled}
-      />
+      <div className="space-y-1">
+        {isDisabled && (
+          <p className="text-sm text-red-500 md:text-base">
+            You've reached the limit of available stock.
+          </p>
+        )}
+        {width && (
+          <ButtonComponent
+            text="Add to Bag"
+            size={width < 768 ? "sm" : "base"}
+            isFull={width < 1024}
+            onClick={onClickAddToBag}
+            disabled={isDisabled}
+          />
+        )}
+      </div>
     </div>
   );
 }
