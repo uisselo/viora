@@ -34,9 +34,12 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
   const onClickButtonIcon = (type: "minus" | "plus") => {
     if (isButtonDisabled) return;
+
     const newNumber =
       type === "minus" ? Math.max(1, number - 1) : Math.min(limit, number + 1);
+
     setNumber(newNumber);
+
     if (onChange) onChange(newNumber);
   };
 
