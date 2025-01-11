@@ -10,7 +10,6 @@ import {
   ProductItemComponent,
   ProductsCarouselComponent,
   useProduct,
-  useShoppingBag,
 } from "@Modules";
 import { formatDate } from "@Utilities";
 
@@ -44,12 +43,14 @@ function ProductDetailsPage() {
   );
 }
 
+export default ProductDetailsPage;
+
 function InformationSection() {
   const [quantity, setQuantity] = useState<number>(1);
 
   const { width } = useWindowSize();
   const { productDetails } = useProduct();
-  const { isDisabled, limit, onClickAddToBag } = useShoppingBag(quantity);
+  const { isDisabled, limit, onClickAddToBag } = useProduct(quantity);
 
   if (!productDetails) return null;
 
@@ -75,8 +76,8 @@ function InformationSection() {
       </div>
       <div className="space-y-1">
         {isDisabled && (
-          <p className="text-sm text-red-500 md:text-base">
-            You've reached the limit of available stock.
+          <p className="text-xs text-red-500 md:text-sm">
+            Stock limit reached.
           </p>
         )}
         {width && (
@@ -128,5 +129,3 @@ function AccordionSection() {
     </div>
   );
 }
-
-export default ProductDetailsPage;
