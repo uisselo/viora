@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { isEmpty, round } from "lodash-es";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useMeasure, useWindowSize } from "@uidotdev/usehooks";
@@ -17,18 +16,7 @@ import {
 
 function ShoppingBagPage() {
   const { beautyProducts } = useProduct();
-  const { items, totalAmount } = useShoppingBag();
-  const { width } = useWindowSize();
-
-  const itemsQuantityText = useMemo(
-    () =>
-      isEmpty(items)
-        ? "No items"
-        : items.length > 1
-          ? `${items.length} Items`
-          : `${items.length} Item`,
-    [items],
-  );
+  const { itemsQuantityText } = useShoppingBag();
 
   return (
     <div className="grid-container">
@@ -43,31 +31,7 @@ function ShoppingBagPage() {
             </section>
             <ShoppingBagItemsSection />
           </div>
-          <div className="space-y-4 h-max md:space-y-6 lg:col-span-4 lg:p-6 lg:bg-gray-50">
-            <div className="space-y-3">
-              <div className="flex justify-between font-semibold md:text-lg">
-                <p>Total</p>
-                <p>$ {totalAmount}</p>
-              </div>
-              <TextAreaComponent
-                placeholder="Order Instructions"
-                rows={4}
-                hideLabel
-              />
-            </div>
-            <div className="space-y-3">
-              <p className="text-sm md:text-base">
-                Shipping is calculated at checkout.
-              </p>
-              {width && (
-                <ButtonComponent
-                  text="Checkout"
-                  size={width < 768 ? "sm" : "base"}
-                  isFull={!(width >= 768 && width < 1024)}
-                />
-              )}
-            </div>
-          </div>
+          <ShoppingBagSummarySection />
         </div>
       </div>
       {beautyProducts && (
@@ -79,9 +43,10 @@ function ShoppingBagPage() {
   );
 }
 
+export default ShoppingBagPage;
+
 function ShoppingBagItemsSection() {
   const [ref, { height: quantityDivHeight }] = useMeasure();
-
   const { items, onChangeQuantity } = useShoppingBag();
 
   if (isEmpty(items)) return null;
@@ -92,27 +57,34 @@ function ShoppingBagItemsSection() {
         <ProductItemComponent key={item.product.id} data={item.product}>
           <div className="grid w-full grid-cols-4 gap-4 pb-4 border-b border-gray-300 md:grid-cols-8 lg:gap-5">
             <ProductItemComponent.Image className="col-span-1 md:col-span-2" />
-            <div className="flex flex-col col-span-2 gap-1 md:col-span-4">
+            <div className="flex flex-col col-span-2 gap-1 md:col-span-3">
               <ProductItemComponent.Title />
               <ProductItemComponent.Price />
             </div>
-            <div className="flex flex-col items-end justify-between col-span-1 md:col-span-2">
+            <div className="flex flex-col items-end justify-between col-span-1 md:col-span-3">
               <ProductItemComponent.TotalPrice
                 value={round(item.totalPrice, 2)}
               />
-              <div className="flex items-center self-end gap-2">
-                <ButtonIconComponent
-                  icon={TrashIcon}
-                  containerSize={quantityDivHeight || 20}
-                  className="border border-gray-300"
-                  iconClassName="stroke-red-500"
-                />
-                <QuantityComponent
-                  ref={ref}
-                  value={item.quantity}
-                  limit={item.product.stock}
-                  onChange={(value) => onChangeQuantity(value, item)}
-                />
+              <div className="flex flex-col self-end gap-1">
+                {item.quantity === item.product.stock && (
+                  <p className="text-xs text-right text-red-500 md:text-sm">
+                    Stock limit reached.
+                  </p>
+                )}
+                <div className="flex items-center justify-end gap-2">
+                  <ButtonIconComponent
+                    icon={TrashIcon}
+                    containerSize={quantityDivHeight || 20}
+                    className="border border-gray-300"
+                    iconClassName="stroke-red-500"
+                  />
+                  <QuantityComponent
+                    ref={ref}
+                    value={item.quantity}
+                    limit={item.product.stock}
+                    onChange={(value) => onChangeQuantity(value, item)}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -122,4 +94,37 @@ function ShoppingBagItemsSection() {
   );
 }
 
-export default ShoppingBagPage;
+function ShoppingBagSummarySection() {
+  const { width } = useWindowSize();
+  const { items, totalAmount } = useShoppingBag();
+
+  if (isEmpty(items)) return null;
+
+  return (
+    <div className="space-y-4 h-max md:space-y-6 lg:col-span-4 lg:p-6 lg:bg-gray-50">
+      <div className="space-y-3">
+        <div className="flex justify-between font-semibold md:text-lg">
+          <p>Total</p>
+          <p>$ {round(totalAmount, 2)}</p>
+        </div>
+        <TextAreaComponent
+          placeholder="Order Instructions"
+          rows={4}
+          hideLabel
+        />
+      </div>
+      <div className="flex flex-col gap-3 md:items-end lg:items-start">
+        <p className="text-sm md:text-base">
+          Shipping is calculated at checkout.
+        </p>
+        {width && (
+          <ButtonComponent
+            text="Checkout"
+            size={width < 768 ? "sm" : "base"}
+            isFull={!(width >= 768 && width < 1024)}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
