@@ -76,7 +76,7 @@ function Price() {
 
 function TotalPrice({ value }: { value: number }) {
   return (
-    <p className="text-sm font-semibold md:text-base whitespace-nowrap">
+    <p className="text-sm font-semibold text-right md:text-base whitespace-nowrap">
       $ {value}
     </p>
   );
