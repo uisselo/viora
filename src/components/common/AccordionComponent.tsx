@@ -4,6 +4,7 @@ import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
+  type DisclosureProps,
   Transition,
 } from "@headlessui/react";
 import { cn } from "@Utilities";
@@ -11,9 +12,10 @@ import { cn } from "@Utilities";
 function AccordionComponent({
   children,
   className,
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement>>) {
+  ...props
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & DisclosureProps>) {
   return (
-    <Disclosure as="div" className={cn("space-y-0.5", className)}>
+    <Disclosure as="div" className={cn("space-y-0.5", className)} {...props}>
       {children}
     </Disclosure>
   );
@@ -32,7 +34,7 @@ function Button({
   return (
     <DisclosureButton
       className={cn(
-        "flex items-center justify-between w-full p-3 font-medium border border-gray-300 md:p-4 bg-gray-50 md:text-lg",
+        "flex items-center justify-between w-full p-3 font-medium bg-gray-50 md:p-4 md:text-lg",
         className,
       )}
     >
@@ -67,10 +69,7 @@ function Panel({
       leaveTo="transform scale-y-0 opacity-0 max-h-0"
     >
       <DisclosurePanel
-        className={cn(
-          "p-3 text-sm border border-gray-300 md:p-4 md:text-base",
-          className,
-        )}
+        className={cn("p-3 text-sm bg-gray-50 md:p-4 md:text-base", className)}
       >
         {children || text}
       </DisclosurePanel>
