@@ -20,7 +20,7 @@ const QuantityComponent = forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 function DefaultDisplay(props: Props) {
   return (
-    <div className="border border-gray-300 flex-center size-9">
+    <div className="bg-white border border-gray-300 flex-center size-9">
       <p className="text-sm font-medium text-center break-words md:text-base">
         {props.value}
       </p>
