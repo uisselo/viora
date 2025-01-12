@@ -14,7 +14,7 @@ function ComponentsPage() {
 
   return (
     <div className="flex flex-col gap-12">
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-12 lg:gap-5">
+      <div className="grid-container">
         <div className="flex flex-col col-span-4 gap-12 md:col-span-6">
           <ButtonIconComponent icon={ShoppingBagIcon} className="p-0">
             <div className="absolute right-0">
@@ -29,7 +29,7 @@ function ComponentsPage() {
           <QuantityComponent value={20} />
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-12 lg:gap-5">
+      <div className="grid-container">
         {beautyProducts && (
           <div className="flex flex-col col-span-2 gap-2 gap-12 md:col-span-4 lg:col-span-3">
             <ProductItemComponent data={beautyProducts[0]}>
