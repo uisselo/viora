@@ -14,8 +14,8 @@ function ProductsCarouselComponent(props: Props) {
 
       <CarouselComponent items={data}>
         {({ item }) => (
-          <Link to={`/product/${item.id}`} className="flex flex-col gap-2">
-            <ProductItemComponent data={item}>
+          <Link to={`/product/${item.id}`}>
+            <ProductItemComponent data={item} className="flex flex-col gap-2">
               <ProductItemComponent.Image />
               <div className="flex gap-3">
                 <ProductItemComponent.Title />

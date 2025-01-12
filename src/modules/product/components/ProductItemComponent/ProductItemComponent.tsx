@@ -6,14 +6,19 @@ import ProductItemContext, {
   useProductItemContext,
 } from "./ProductItemContext";
 
-type Props = PropsWithChildren<{ data: ProductItem; isProductPage?: boolean }>;
+type Props = PropsWithChildren<
+  {
+    data: ProductItem;
+    isProductPage?: boolean;
+  } & HTMLAttributes<HTMLDivElement>
+>;
 
 function ProductItemComponent(props: Props) {
-  const { children, data, isProductPage } = props;
+  const { children, data, isProductPage, ...divProps } = props;
 
   return (
     <ProductItemContext.Provider value={{ data, isProductPage }}>
-      {children}
+      <div {...divProps}>{children}</div>
     </ProductItemContext.Provider>
   );
 }
