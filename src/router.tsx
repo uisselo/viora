@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { LayoutComponent } from "@GlobalComponents";
 import {
+  CheckoutPage,
   ComponentsPage,
   HomePage,
   ProductDetailsPage,
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
       { path: "components", element: <ComponentsPage /> },
       { path: "shopping-bag", element: <ShoppingBagPage /> },
       { path: "product/:id", element: <ProductDetailsPage /> },
+      { path: "checkout", element: <CheckoutPage /> },
     ],
   },
 ]);
