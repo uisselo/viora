@@ -67,7 +67,13 @@ function InformationFormComponent({ onClick }: { onClick: () => void }) {
             error={errors.last_name?.message as string}
           />
         </div>
-        <TextAreaComponent id="address" label="Address" placeholder="Address" />
+        <TextAreaComponent
+          id="address"
+          label="Address"
+          placeholder="Address"
+          register={register}
+          error={errors.address?.message as string}
+        />
         <TextInputComponent
           id="postal_code"
           label="Postal Code"
