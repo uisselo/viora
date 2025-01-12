@@ -20,15 +20,17 @@ function ProductDetailsPage() {
 
   return (
     <div className="grid-container">
-      <ProductItemComponent data={productDetails} isProductPage>
-        <div className="flex flex-col col-span-4 gap-8 md:gap-4 md:col-span-12 md:grid md:grid-cols-12 lg:gap-5 lg:col-start-2">
-          <div className="md:col-span-6 lg:col-span-5">
-            <ProductItemComponent.Image />
-          </div>
-          <div className="space-y-8 md:col-span-6 lg:col-span-5">
-            <InformationSection />
-            <AccordionSection />
-          </div>
+      <ProductItemComponent
+        data={productDetails}
+        isProductPage
+        className="flex flex-col col-span-4 gap-8 md:gap-4 md:col-span-12 md:grid md:grid-cols-12 lg:gap-5 lg:col-start-2"
+      >
+        <div className="md:col-span-6 lg:col-span-5">
+          <ProductItemComponent.Image />
+        </div>
+        <div className="space-y-8 md:col-span-6 lg:col-span-5">
+          <InformationSection />
+          <AccordionSection />
         </div>
       </ProductItemComponent>
       {bagProducts && (

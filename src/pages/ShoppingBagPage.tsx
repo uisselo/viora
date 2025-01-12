@@ -54,37 +54,39 @@ function ShoppingBagItemsSection() {
   return (
     <section className="space-y-4">
       {items.map((item) => (
-        <ProductItemComponent key={item.product.id} data={item.product}>
-          <div className="grid w-full grid-cols-4 gap-4 pb-4 border-b border-gray-300 md:grid-cols-8 lg:gap-5">
-            <ProductItemComponent.Image className="col-span-1 md:col-span-2" />
-            <div className="flex flex-col col-span-2 gap-1 md:col-span-3">
-              <ProductItemComponent.Title />
-              <ProductItemComponent.Price />
-            </div>
-            <div className="flex flex-col items-end justify-between col-span-1 md:col-span-3">
-              <ProductItemComponent.TotalPrice
-                value={round(item.totalPrice, 2)}
-              />
-              <div className="flex flex-col self-end gap-1">
-                {item.quantity === item.product.stock && (
-                  <p className="text-xs text-right text-red-500 md:text-sm">
-                    Stock limit reached.
-                  </p>
-                )}
-                <div className="flex items-center justify-end gap-2">
-                  <ButtonIconComponent
-                    icon={TrashIcon}
-                    containerSize={quantityDivHeight || 20}
-                    className="border border-gray-300"
-                    iconClassName="stroke-red-500"
-                  />
-                  <QuantityComponent
-                    ref={ref}
-                    value={item.quantity}
-                    limit={item.product.stock}
-                    onChange={(value) => onChangeQuantity(value, item)}
-                  />
-                </div>
+        <ProductItemComponent
+          key={item.product.id}
+          data={item.product}
+          className="grid w-full grid-cols-4 gap-4 pb-4 border-b border-gray-300 md:grid-cols-8 lg:gap-5"
+        >
+          <ProductItemComponent.Image className="col-span-1 md:col-span-2" />
+          <div className="flex flex-col col-span-2 gap-1 md:col-span-3">
+            <ProductItemComponent.Title />
+            <ProductItemComponent.Price />
+          </div>
+          <div className="flex flex-col items-end justify-between col-span-1 md:col-span-3">
+            <ProductItemComponent.TotalPrice
+              value={round(item.totalPrice, 2)}
+            />
+            <div className="flex flex-col self-end gap-1">
+              {item.quantity === item.product.stock && (
+                <p className="text-xs text-right text-red-500 md:text-sm">
+                  Stock limit reached.
+                </p>
+              )}
+              <div className="flex items-center justify-end gap-2">
+                <ButtonIconComponent
+                  icon={TrashIcon}
+                  containerSize={quantityDivHeight || 20}
+                  className="border border-gray-300"
+                  iconClassName="stroke-red-500"
+                />
+                <QuantityComponent
+                  ref={ref}
+                  value={item.quantity}
+                  limit={item.product.stock}
+                  onChange={(value) => onChangeQuantity(value, item)}
+                />
               </div>
             </div>
           </div>
@@ -119,6 +121,7 @@ function ShoppingBagSummarySection() {
         </p>
         {width && (
           <ButtonComponent
+            navigateTo="/checkout"
             text="Checkout"
             size={width < 768 ? "sm" : "base"}
             isFull={!(width >= 768 && width < 1024)}
