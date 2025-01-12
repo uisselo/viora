@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes } from "react";
+import { useNavigate } from "react-router";
 import { type HeroIconProp, cn } from "@Utilities";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
   icon?: HeroIconProp;
   iconPosition?: "trailing" | "leading";
   isFull?: boolean;
+  navigateTo?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const MAP_VARIANT = {
@@ -40,37 +42,56 @@ function ButtonComponent(props: Props) {
     icon: Icon,
     iconPosition = "leading",
     isFull,
+    navigateTo,
     disabled,
     className,
+    onClick,
     ...buttonProps
   } = props;
 
+  const navigate = useNavigate();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (disabled) {
+      event.preventDefault();
+      return;
+    }
+
+    if (navigateTo) {
+      navigate(navigateTo);
+      return;
+    }
+
+    if (onClick) {
+      onClick(event);
+    }
+  };
+
   return (
-    <>
-      <button
-        className={cn(
-          "flex-center font-semibold rounded cursor-pointer",
-          { "flex-row-reverse": iconPosition === "trailing" },
-          isFull ? "w-full" : "w-max",
-          MAP_SIZE[size],
-          MAP_VARIANT[variant],
-          disabled
-            ? variant !== "link"
-              ? "bg-gray-400 cursor-not-allowed"
-              : "text-gray-800 cursor-not-allowed"
-            : "",
-          className,
-        )}
-        {...buttonProps}
-      >
-        {text}
-        {Icon && (
-          <Icon
-            className={cn("stroke-current stroke 1.5", MAP_ICON_SIZE[size])}
-          />
-        )}
-      </button>
-    </>
+    <button
+      className={cn(
+        "flex-center font-semibold rounded cursor-pointer",
+        { "flex-row-reverse": iconPosition === "trailing" },
+        isFull ? "w-full" : "w-max",
+        MAP_SIZE[size],
+        MAP_VARIANT[variant],
+        disabled
+          ? variant !== "link"
+            ? "bg-gray-400 cursor-not-allowed"
+            : "text-gray-800 cursor-not-allowed"
+          : "",
+        className,
+      )}
+      onClick={handleClick}
+      {...buttonProps}
+    >
+      {text}
+      {Icon && (
+        <Icon
+          className={cn("stroke-current stroke 1.5", MAP_ICON_SIZE[size])}
+        />
+      )}
+    </button>
   );
 }
 
