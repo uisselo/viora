@@ -1,17 +1,9 @@
-import { useState } from "react";
-import { Fragment } from "react/jsx-runtime";
-import clsx from "clsx";
-import { round, some } from "lodash-es";
-import { Tab, TabGroup, TabList, TabPanels } from "@headlessui/react";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
+import { round } from "lodash-es";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { AccordionComponent, QuantityComponent } from "@GlobalComponents";
 import {
-  ConfirmationComponent,
-  InformationFormComponent,
-  PaymentFormComponent,
+  OrderFormComponent,
   ProductItemComponent,
-  useCheckoutStore,
   useShoppingBag,
 } from "@Modules";
 
@@ -25,7 +17,7 @@ function CheckoutPage() {
         </p>
       </div>
       <div className="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-2">
-        <TabsSection />
+        <OrderFormComponent />
         <OrderSummarySection />
       </div>
     </div>
@@ -33,55 +25,6 @@ function CheckoutPage() {
 }
 
 export default CheckoutPage;
-
-function TabsSection() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const tabItems = ["Information", "Payment", "Confirmation"];
-
-  const informationForm = useCheckoutStore((state) => state.informationForm);
-  const paymentForm = useCheckoutStore((state) => state.paymentForm);
-
-  const onClickTab = (index: number) => {
-    const infoFormError = some(informationForm, (item) => item === "");
-    const paymentFormError = some(paymentForm, (item) => item === "");
-
-    if (index === 1 && infoFormError) return;
-    if (index === 2 && paymentFormError) return;
-    setSelectedIndex(index);
-  };
-
-  return (
-    <TabGroup selectedIndex={selectedIndex} className="space-y-6">
-      <TabList className="flex items-center gap-x-3">
-        {tabItems.map((item, index) => (
-          <Fragment key={String(index)}>
-            <Tab
-              className={({ selected }) =>
-                clsx(
-                  "text-xs uppercase md:text-sm focus:outline-none",
-                  selected
-                    ? "font-semibold text-primary"
-                    : "font-medium text-gray-400",
-                )
-              }
-              onClick={() => onClickTab(index)}
-            >
-              {item}
-            </Tab>
-            {index < tabItems.length - 1 && (
-              <ChevronRightIcon className="stroke-current size-3 stroke-gray-400 stoke-2" />
-            )}
-          </Fragment>
-        ))}
-      </TabList>
-      <TabPanels>
-        <InformationFormComponent onClick={() => setSelectedIndex(1)} />
-        <PaymentFormComponent />
-        <ConfirmationComponent />
-      </TabPanels>
-    </TabGroup>
-  );
-}
 
 function OrderSummarySection() {
   const { width } = useWindowSize();
