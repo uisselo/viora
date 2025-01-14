@@ -16,7 +16,7 @@ function CheckoutPage() {
           Almost there! Just a few steps to go.
         </p>
       </div>
-      <div className="flex flex-col-reverse gap-8 lg:grid lg:grid-cols-2">
+      <div className="flex flex-col-reverse gap-8 lg:gap-5 lg:grid lg:grid-cols-2">
         <OrderFormComponent />
         <OrderSummarySection />
       </div>

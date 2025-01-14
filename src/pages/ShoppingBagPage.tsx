@@ -49,7 +49,7 @@ export default ShoppingBagPage;
 
 function ShoppingBagItemsSection() {
   const [ref, { height: quantityDivHeight }] = useMeasure();
-  const { items, onChangeQuantity } = useShoppingBag();
+  const { items, onChangeQuantity, removeItem } = useShoppingBag();
 
   if (isEmpty(items)) return null;
 
@@ -82,6 +82,7 @@ function ShoppingBagItemsSection() {
                   containerSize={quantityDivHeight || 20}
                   className="border border-gray-300"
                   iconClassName="stroke-red-500"
+                  onClick={() => removeItem(item)}
                 />
                 <QuantityComponent
                   ref={ref}

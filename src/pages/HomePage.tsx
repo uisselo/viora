@@ -1,10 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import type { SubmitHandler } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Images } from "@Assets";
 import { CATEGORIES } from "@Config";
-import { ButtonComponent, TextInputComponent } from "@GlobalComponents";
+import {
+  ButtonComponent,
+  TextInputComponent,
+  ToastComponent,
+  type ToastComponentFunction,
+} from "@GlobalComponents";
 import { ProductsCarouselComponent, useProductQueries } from "@Modules";
-import { useValidate } from "@Utilities";
+import { type NewsletterForm, useValidate } from "@Utilities";
 
 function HomePage() {
   const { beautyProducts, bagProducts } = useProductQueries();
@@ -80,14 +87,18 @@ function CategoriesSection() {
 
 function NewsletterSection() {
   const { width } = useWindowSize();
-  const { createFields, register, handleSubmit, errors } = useValidate();
+  const { createFields, register, handleSubmit, errors } =
+    useValidate<NewsletterForm>();
 
   useEffect(() => {
     createFields(["full_name", "email"]);
   }, []);
 
-  const onSubmit = (data: unknown) => {
+  const toastComponentRef = useRef<ToastComponentFunction>(null);
+
+  const onSubmit: SubmitHandler<NewsletterForm> = (data) => {
     console.log(data);
+    toastComponentRef.current?.showToast();
   };
 
   return (
@@ -128,6 +139,11 @@ function NewsletterSection() {
           )}
         </div>
       </div>
+      <ToastComponent
+        ref={toastComponentRef}
+        title="You're all set!"
+        message="Stay tuned for updates in your inbox."
+      />
     </div>
   );
 }
