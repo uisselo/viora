@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
 import type { ProductItem } from "../../store";
 
-type ProductItemContext = { data: ProductItem; isProductPage?: boolean };
+type ProductItemContextData = { data: ProductItem; isProductPage?: boolean };
 
-const ProductItemContext = createContext<ProductItemContext>(
-  {} as ProductItemContext,
+const ProductItemContext = createContext<ProductItemContextData>(
+  {} as ProductItemContextData,
 );
 
 export default ProductItemContext;
