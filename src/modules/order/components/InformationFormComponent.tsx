@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { type ChangeEvent, useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { TabPanel } from "@headlessui/react";
 import { useWindowSize } from "@uidotdev/usehooks";
@@ -13,7 +13,7 @@ import { useOrderContext, type InformationForm } from "../store";
 
 function InformationFormComponent() {
   const { width } = useWindowSize();
-  const { setInfoForm, setSelectedTabIndex } = useOrderContext();
+  const { infoForm, setInfoForm, setSelectedTabIndex } = useOrderContext();
 
   const { createFields, register, handleSubmit, errors } =
     useValidate<InformationForm>();
@@ -30,6 +30,10 @@ function InformationFormComponent() {
       "mobile_number",
     ]);
   }, []);
+
+  const onChangeOrderInstructions = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInfoForm({ ...infoForm, order_instructions: e.target.value });
+  };
 
   const onSubmitInfoForm: SubmitHandler<InformationForm> = (data) => {
     setInfoForm({ ...data });
@@ -104,6 +108,8 @@ function InformationFormComponent() {
           error={errors.mobile_number?.message as string}
         />
         <TextAreaComponent
+          value={infoForm.order_instructions}
+          onChange={onChangeOrderInstructions}
           id="order_instructions"
           label="Order Instructions"
           placeholder="Order Instructions"
