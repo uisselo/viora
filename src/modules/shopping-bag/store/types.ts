@@ -10,4 +10,6 @@ export type ShoppingBagState = {
   items: ShoppingBagItem[];
   addItem: (data: ShoppingBagItem) => void;
   updateItem: (data: ShoppingBagItem) => void;
+  removeItem: (data: ShoppingBagItem) => void;
+  clearItems: () => void;
 };

@@ -7,6 +7,8 @@ export function useShoppingBag() {
   const items = useShoppingBagStore(useShallow((state) => state.items));
   const addItem = useShoppingBagStore((state) => state.addItem);
   const updateItem = useShoppingBagStore((state) => state.updateItem);
+  const removeItem = useShoppingBagStore((state) => state.removeItem);
+  const clearItems = useShoppingBagStore((state) => state.clearItems);
 
   const itemsQuantityText = useMemo(
     () =>
@@ -39,6 +41,8 @@ export function useShoppingBag() {
     totalAmount,
     addItem,
     updateItem,
+    removeItem,
+    clearItems,
     onChangeQuantity,
   };
 }

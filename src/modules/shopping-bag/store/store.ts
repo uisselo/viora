@@ -15,6 +15,11 @@ const useShoppingBagStore = create<ShoppingBagState>((set) => ({
           : item,
       ),
     })),
+  removeItem: (item) =>
+    set((state) => ({
+      items: state.items.filter((e) => e.product.id !== item.product.id),
+    })),
+  clearItems: () => set({ items: [] }),
 }));
 
 export default useShoppingBagStore;
