@@ -33,11 +33,11 @@ function useValidate<T extends FieldValues>() {
             .min(1, "Email address is required")
             .email("Invalid email address");
           break;
-        case "mobile_no":
+        case "mobile_number":
           shape[field] = z
             .string()
             .min(1, "Mobile number is required")
-            .regex(/^[9]\d{9}$/, "Invalid mobile number");
+            .regex(/^\d{6,15}$/, "Invalid mobile number");
           break;
         default:
           shape[field] = z
