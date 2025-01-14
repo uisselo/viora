@@ -1,23 +1,22 @@
 import { useEffect } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { TabPanel } from "@headlessui/react";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import {
   ButtonComponent,
   TextAreaComponent,
   TextInputComponent,
 } from "@GlobalComponents";
 import { useValidate } from "@Utilities";
-import { type InformationForm, useCheckoutStore } from "../store";
+import { useOrderContext, type InformationForm } from "../store";
 
-function InformationFormComponent({ onClick }: { onClick: () => void }) {
+function InformationFormComponent() {
   const { width } = useWindowSize();
+  const { setInfoForm, setSelectedTabIndex } = useOrderContext();
+
   const { createFields, register, handleSubmit, errors } =
     useValidate<InformationForm>();
-  const setInformationForm = useCheckoutStore(
-    (state) => state.setInformationForm,
-  );
 
   useEffect(() => {
     createFields([
@@ -32,9 +31,9 @@ function InformationFormComponent({ onClick }: { onClick: () => void }) {
     ]);
   }, []);
 
-  const onSubmit: SubmitHandler<InformationForm> = (data) => {
-    setInformationForm({ ...data });
-    onClick();
+  const onSubmitInfoForm: SubmitHandler<InformationForm> = (data) => {
+    setInfoForm({ ...data });
+    setSelectedTabIndex(1);
   };
 
   return (
@@ -104,6 +103,12 @@ function InformationFormComponent({ onClick }: { onClick: () => void }) {
           register={register}
           error={errors.mobile_number?.message as string}
         />
+        <TextAreaComponent
+          id="order_instructions"
+          label="Order Instructions"
+          placeholder="Order Instructions"
+          isOptional
+        />
       </div>
       {width && (
         <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-start">
@@ -119,7 +124,7 @@ function InformationFormComponent({ onClick }: { onClick: () => void }) {
             text="Proceed"
             size={width > 768 ? "base" : "sm"}
             isFull={width < 768}
-            onClick={handleSubmit(onSubmit)}
+            onClick={handleSubmit(onSubmitInfoForm)}
           />
         </div>
       )}

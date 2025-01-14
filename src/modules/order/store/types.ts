@@ -12,13 +12,21 @@ export type InformationForm = {
 
 export type PaymentForm = {
   payment_method: string;
-  card_name: string;
-  card_number: string;
+  card_name?: string;
+  card_number?: string;
+  expiration_date?: string;
+  cvv?: string;
 };
 
-export type CheckoutStore = {
-  informationForm: InformationForm;
+export type OrderStore = {
+  infoForm: InformationForm;
   paymentForm: PaymentForm;
-  setInformationForm: (data: InformationForm) => void;
+  setInfoForm: (data: InformationForm) => void;
   setPaymentForm: (data: PaymentForm) => void;
+};
+
+export type OrderContextData = OrderStore & {
+  isCardPayment: boolean;
+  selectedTabIndex: number;
+  setSelectedTabIndex: (data: number) => void;
 };
