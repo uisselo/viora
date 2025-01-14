@@ -1,3 +1,4 @@
+import type { ChangeEvent } from "react";
 import { isEmpty, round } from "lodash-es";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { useMeasure, useWindowSize } from "@uidotdev/usehooks";
@@ -10,6 +11,7 @@ import {
 import {
   ProductItemComponent,
   ProductsCarouselComponent,
+  useOrderStore,
   useProduct,
   useShoppingBag,
 } from "@Modules";
@@ -99,6 +101,12 @@ function ShoppingBagItemsSection() {
 function ShoppingBagSummarySection() {
   const { width } = useWindowSize();
   const { items, totalAmount } = useShoppingBag();
+  const infoForm = useOrderStore((state) => state.infoForm);
+  const setInfoForm = useOrderStore((state) => state.setInfoForm);
+
+  const onChangeOrderInstructions = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setInfoForm({ ...infoForm, order_instructions: e.target.value });
+  };
 
   if (isEmpty(items)) return null;
 
@@ -110,9 +118,12 @@ function ShoppingBagSummarySection() {
           <p>$ {round(totalAmount, 2)}</p>
         </div>
         <TextAreaComponent
+          value={infoForm.order_instructions}
+          onChange={onChangeOrderInstructions}
           placeholder="Order Instructions"
           rows={4}
           hideLabel
+          isOptional
         />
       </div>
       <div className="flex flex-col gap-3 md:items-end lg:items-start">
