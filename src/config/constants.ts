@@ -5,9 +5,9 @@ export const API_URL = "https://dummyjson.com";
 
 export const HEADER_NAV_ITEMS = [
   { label: "Categories", link: "", icon: ChevronDownIcon },
-  { label: "Bestsellers", link: "/product/bestsellers" },
-  { label: "New Arrivals", link: "/product/new-arrivals" },
-  { label: "On Sale", link: "/product/on-sale" },
+  { label: "Bestsellers", link: "/products/bestsellers" },
+  { label: "New Arrivals", link: "/products/new-arrivals" },
+  { label: "On Sale", link: "/products/on-sale" },
 ];
 
 export const FOOTER_NAV_ITEMS = [
