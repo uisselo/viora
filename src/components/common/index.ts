@@ -6,3 +6,6 @@ export { default as CarouselComponent } from "./CarouselComponent";
 export { default as QuantityComponent } from "./QuantityComponent";
 export { default as TextAreaComponent } from "./TextAreaComponent";
 export { default as TextInputComponent } from "./TextInputComponent";
+export { default as ToastComponent } from "./ToastComponent";
+
+export type { ToastComponentFunction } from "./ToastComponent";

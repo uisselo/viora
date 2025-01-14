@@ -1,15 +1,16 @@
-import type { TextareaHTMLAttributes } from "react";
+import { useState, type TextareaHTMLAttributes } from "react";
 import { cn, type HeroIconProp } from "@Utilities";
 import type { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
-type Props<T extends FieldValues> = {
-  label?: string;
-  hideLabel?: boolean;
-  icon?: HeroIconProp;
-  error?: string;
-  register?: UseFormRegister<T>;
-  isOptional?: boolean;
-} & TextareaHTMLAttributes<HTMLTextAreaElement>;
+type Props<T extends FieldValues> = Partial<{
+  label: string;
+  hideLabel: boolean;
+  icon: HeroIconProp;
+  error: string;
+  register: UseFormRegister<T>;
+  isOptional: boolean;
+}> &
+  TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 function TextAreaComponent<T extends FieldValues>(props: Props<T>) {
   const {
@@ -24,12 +25,24 @@ function TextAreaComponent<T extends FieldValues>(props: Props<T>) {
     className,
     ...textAreaProps
   } = props;
+
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
   return (
     <div className="flex flex-col w-full gap-0.5">
       <div
         className={cn(
           "relative flex items-center px-3 w-full bg-white text-sm md:text-base rounded border border-gray-400",
           { "border-red-500": error },
+          { "border-primary": isFocused },
           hideLabel ? "py-2" : "py-3",
           className,
         )}
@@ -39,6 +52,8 @@ function TextAreaComponent<T extends FieldValues>(props: Props<T>) {
           className="block w-full appearance-none focus:outline-none focus:ring-0"
           placeholder={isOptional ? `${placeholder} (Optional)` : placeholder}
           {...(id && register && register(id as Path<T>))}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           {...textAreaProps}
         />
         {!hideLabel && (
@@ -47,6 +62,7 @@ function TextAreaComponent<T extends FieldValues>(props: Props<T>) {
             className={cn(
               "absolute top-2 z-10 text-gray-600 text-xs md:text-sm bg-white px-1 transform -translate-y-4 -translate-x-1 origin-[0]",
               { "text-red-500": error },
+              { "text-primary": isFocused },
             )}
           >
             {label}
