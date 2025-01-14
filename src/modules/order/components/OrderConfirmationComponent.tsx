@@ -1,14 +1,30 @@
-import type { PropsWithChildren } from "react";
-import { ButtonComponent } from "@GlobalComponents";
+import { useRef, type PropsWithChildren } from "react";
+import { useNavigate } from "react-router";
 import { TabPanel } from "@headlessui/react";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useWindowSize } from "@uidotdev/usehooks";
+import {
+  ButtonComponent,
+  ToastComponent,
+  type ToastComponentFunction,
+} from "@GlobalComponents";
+import { useShoppingBag } from "@Modules";
 import { useOrderContext } from "../store";
 
 function OrderConfirmationComponent() {
+  const navigate = useNavigate();
   const { width } = useWindowSize();
   const { isCardPayment, infoForm, paymentForm, setSelectedTabIndex } =
     useOrderContext();
+  const { clearItems } = useShoppingBag();
+
+  const toastComponentRef = useRef<ToastComponentFunction>(null);
+
+  const onClickCompleteOrder = () => {
+    navigate("/");
+    clearItems();
+    toastComponentRef.current?.showToast();
+  };
 
   return (
     <TabPanel className="space-y-6">
@@ -47,9 +63,15 @@ function OrderConfirmationComponent() {
             text="Complete Order"
             size={width > 768 ? "base" : "sm"}
             isFull={width < 768}
+            onClick={onClickCompleteOrder}
           />
         </div>
       )}
+      <ToastComponent
+        ref={toastComponentRef}
+        title="Thank you for your order!"
+        message="Your order has been successfully placed."
+      />
     </TabPanel>
   );
 }
