@@ -8,6 +8,7 @@ type Props<T extends FieldValues> = {
   icon?: HeroIconProp;
   error?: string;
   register?: UseFormRegister<T>;
+  isOptional?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 function TextInputComponent<T extends FieldValues>(props: Props<T>) {
@@ -17,6 +18,7 @@ function TextInputComponent<T extends FieldValues>(props: Props<T>) {
     icon: Icon,
     error,
     register,
+    isOptional,
     id,
     placeholder = "Placeholder",
     className,
@@ -24,7 +26,7 @@ function TextInputComponent<T extends FieldValues>(props: Props<T>) {
   } = props;
 
   return (
-    <div className="flex flex-col w-full gap-1">
+    <div className="flex flex-col w-full gap-0.5">
       <div
         className={cn(
           "relative flex items-center px-3 w-full bg-transparent text-sm md:text-base rounded border border-gray-400",
@@ -37,7 +39,7 @@ function TextInputComponent<T extends FieldValues>(props: Props<T>) {
           id={id}
           type="text"
           className="block w-full appearance-none focus:outline-none focus:ring-0"
-          placeholder={placeholder}
+          placeholder={isOptional ? `${placeholder} (Optional)` : placeholder}
           {...(id && register && register(id as Path<T>))}
           {...inputProps}
         />
