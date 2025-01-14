@@ -3,6 +3,7 @@ import { LayoutComponent } from "@GlobalComponents";
 import {
   CheckoutPage,
   ComponentsPage,
+  ErrorPage,
   HomePage,
   ProductDetailsPage,
   ShoppingBagPage,
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "product/:id", element: <ProductDetailsPage /> },
       { path: "checkout", element: <CheckoutPage /> },
     ],
+    errorElement: <ErrorPage />,
   },
 ]);
 
