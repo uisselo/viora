@@ -32,25 +32,27 @@ function OrderConfirmationComponent() {
         Confirm your items, shipping, and payment details before placing your
         order.
       </p>
-      <InformationItem title="Shipping Information" toTabIndex={0}>
-        <p className="font-medium">
-          {infoForm.first_name} {infoForm.last_name}
-        </p>
-        <p>{infoForm.address}</p>
-        <p>
-          {infoForm.city}, {infoForm.state}, {infoForm.postal_code}
-        </p>
-      </InformationItem>
-      <InformationItem title="Payment Information" toTabIndex={1}>
-        {isCardPayment
-          ? `Card ending in ${paymentForm.card_number?.slice(-4)}`
-          : paymentForm.payment_method}
-      </InformationItem>
-      <InformationItem title="Order Instructions" toTabIndex={0}>
-        {infoForm?.order_instructions || "N/A"}
-      </InformationItem>
+      <div className="space-y-3 md:space-y-4 lg:space-y-5">
+        <InformationItem title="Shipping Information" toTabIndex={0}>
+          <p className="font-medium">
+            {infoForm.first_name} {infoForm.last_name}
+          </p>
+          <p>{infoForm.address}</p>
+          <p>
+            {infoForm.city}, {infoForm.state}, {infoForm.postal_code}
+          </p>
+        </InformationItem>
+        <InformationItem title="Payment Information" toTabIndex={1}>
+          {isCardPayment
+            ? `Card ending in ${paymentForm.card_number?.slice(-4)}`
+            : paymentForm.payment_method}
+        </InformationItem>
+        <InformationItem title="Order Instructions" toTabIndex={0}>
+          {infoForm?.order_instructions || "N/A"}
+        </InformationItem>
+      </div>
       {width && (
-        <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-start">
+        <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
           <ButtonComponent
             variant="link"
             text="Return to Payment"
@@ -87,7 +89,7 @@ function InformationItem({
   const { setSelectedTabIndex } = useOrderContext();
 
   return (
-    <div className="space-y-1.5 border-b pb-6">
+    <div className="space-y-1.5 border-b border-gray-300 pb-3 md:pb-4 lg:pb-5">
       <div className="flex justify-between gap-2 md:justify-start">
         <p className="font-semibold md:text-lg">{title}</p>
         {width && (

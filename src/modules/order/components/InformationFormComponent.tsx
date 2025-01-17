@@ -36,7 +36,7 @@ function InformationFormComponent() {
   };
 
   const onSubmitInfoForm: SubmitHandler<InformationForm> = (data) => {
-    setInfoForm({ ...data });
+    setInfoForm({ ...infoForm, ...data });
     setSelectedTabIndex(1);
   };
 
@@ -117,7 +117,7 @@ function InformationFormComponent() {
         />
       </div>
       {width && (
-        <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-start">
+        <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
           <ButtonComponent
             variant="link"
             navigateTo="/shopping-bag"

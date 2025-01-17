@@ -79,7 +79,7 @@ function PaymentFormComponent() {
         )}
       </div>
       {width && (
-        <div className="flex flex-col gap-3 md:flex-row md:justify-between md:items-start">
+        <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-start">
           <ButtonComponent
             variant="link"
             text="Return to Information"
