@@ -59,7 +59,7 @@ function ShoppingBagItemsSection() {
         <ProductItemComponent
           key={item.product.id}
           data={item.product}
-          className="grid w-full grid-cols-4 gap-4 pb-4 border-b border-gray-300 md:grid-cols-8 lg:gap-5"
+          className="grid w-full grid-cols-4 gap-4 pb-4 border-b border-gray-300 md:grid-cols-8 lg:pb-5 lg:gap-5"
         >
           <ProductItemComponent.Image className="col-span-1 md:col-span-2" />
           <div className="flex flex-col col-span-2 gap-1 md:col-span-3">
@@ -71,9 +71,9 @@ function ShoppingBagItemsSection() {
               value={round(item.totalPrice, 2)}
             />
             <div className="flex flex-col self-end gap-1">
-              {item.quantity === item.product.stock && (
+              {item.quantity === item.product.minimumOrderQuantity && (
                 <p className="text-xs text-right text-red-500 md:text-sm">
-                  Stock limit reached.
+                  Minimum order reached.
                 </p>
               )}
               <div className="flex items-center justify-end gap-2">
@@ -81,13 +81,13 @@ function ShoppingBagItemsSection() {
                   icon={TrashIcon}
                   containerSize={quantityDivHeight || 20}
                   className="border border-gray-300"
-                  iconClassName="stroke-red-500"
+                  iconClassName="size-4 md:size-5 stroke-red-500"
                   onClick={() => removeItem(item)}
                 />
                 <QuantityComponent
                   ref={ref}
                   value={item.quantity}
-                  limit={item.product.stock}
+                  limit={item.product.minimumOrderQuantity}
                   onChange={(value) => onChangeQuantity(value, item)}
                 />
               </div>
