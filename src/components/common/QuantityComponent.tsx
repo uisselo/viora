@@ -1,4 +1,5 @@
 import { forwardRef, useState } from "react";
+import clsx from "clsx";
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import ButtonIconComponent from "./ButtonIconComponent";
 
@@ -32,6 +33,9 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const { value, limit = 10, isButtonDisabled, onChange } = props;
   const [number, setNumber] = useState<number>(value || 1);
 
+  const isMinusDisabled = isButtonDisabled || number === 1;
+  const isPlusDisabled = isButtonDisabled || limit === number;
+
   const onClickButtonIcon = (type: "minus" | "plus") => {
     if (isButtonDisabled) return;
 
@@ -47,8 +51,11 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
     <div ref={ref} className="px-1 border border-gray-300 flex-center w-max">
       <ButtonIconComponent
         icon={MinusIcon}
-        iconClassName="size-3.5 md:size-4 stroke-gray-800"
-        disabled={isButtonDisabled}
+        iconClassName={clsx(
+          "size-3.5 md:size-4",
+          isMinusDisabled ? "stroke-gray-400" : "stroke-gray-800",
+        )}
+        disabled={isMinusDisabled}
         onClick={() => onClickButtonIcon("minus")}
       />
       <div className="flex-center size-9 max-w-9">
@@ -58,8 +65,11 @@ const AdjustmentDisplay = forwardRef<HTMLDivElement, Props>((props, ref) => {
       </div>
       <ButtonIconComponent
         icon={PlusIcon}
-        iconClassName="size-3.5 md:size-4 stroke-gray-800"
-        disabled={isButtonDisabled}
+        iconClassName={clsx(
+          "size-3.5 md:size-4",
+          isPlusDisabled ? "stroke-gray-400" : "stroke-gray-800",
+        )}
+        disabled={isPlusDisabled}
         onClick={() => onClickButtonIcon("plus")}
       />
     </div>
