@@ -15,7 +15,14 @@ function AccordionComponent({
   ...props
 }: PropsWithChildren<HTMLAttributes<HTMLDivElement> & DisclosureProps>) {
   return (
-    <Disclosure as="div" className={cn("space-y-0.5", className)} {...props}>
+    <Disclosure
+      as="div"
+      className={cn(
+        "border border-gray-300 divide-y divide-gray-300",
+        className,
+      )}
+      {...props}
+    >
       {children}
     </Disclosure>
   );
@@ -34,7 +41,7 @@ function Button({
   return (
     <DisclosureButton
       className={cn(
-        "flex items-center justify-between w-full p-3 font-medium bg-gray-50 md:p-4 md:text-lg",
+        "flex items-center justify-between w-full p-4 font-medium md:p-6 md:text-lg",
         className,
       )}
     >
@@ -69,7 +76,7 @@ function Panel({
       leaveTo="transform scale-y-0 opacity-0 max-h-0"
     >
       <DisclosurePanel
-        className={cn("p-3 text-sm bg-gray-50 md:p-4 md:text-base", className)}
+        className={cn("p-4 text-sm md:p-6 md:text-base", className)}
       >
         {children || text}
       </DisclosurePanel>
