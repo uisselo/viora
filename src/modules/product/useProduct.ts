@@ -13,15 +13,17 @@ export function useProduct(quantity = 0) {
   );
 
   const isDisabled = useMemo(() => {
-    return items.some((item) => itemInBag?.quantity === item.product.stock);
+    return items.some(
+      (item) => itemInBag?.quantity === item.product.minimumOrderQuantity,
+    );
   }, [items, itemInBag]);
 
   const limit = useMemo(() => {
     if (!productDetails) return;
 
     return itemInBag
-      ? productDetails.stock - itemInBag.quantity
-      : productDetails.stock;
+      ? productDetails.minimumOrderQuantity - itemInBag.quantity
+      : productDetails.minimumOrderQuantity;
   }, [productDetails, itemInBag]);
 
   const onClickAddToBag = useCallback(() => {
