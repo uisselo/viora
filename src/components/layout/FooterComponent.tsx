@@ -9,11 +9,14 @@ function FooterComponent() {
   const { width } = useWindowSize();
 
   const renderSection = (title: string, links: string[]) => (
-    <div key={title} className="flex flex-col gap-3 md:col-span-2">
+    <div
+      key={title}
+      className="flex flex-col gap-3 md:col-span-3 lg:col-span-2"
+    >
       <p className="text-xs font-medium tracking-wider uppercase md:text-sm">
         {title}
       </p>
-      <ul className="flex flex-wrap gap-4 md:flex-col md:gap-2">
+      <ul className="flex flex-wrap gap-x-4 gap-y-3 md:flex-col md:gap-2">
         {links.map((item) => (
           <li key={item}>
             {width && (
@@ -31,14 +34,14 @@ function FooterComponent() {
 
   return (
     <footer className="w-full border-t">
-      <div className="container flex flex-col gap-8 py-4 md:grid md:grid-cols-12 md:py-8 lg:gap-5">
-        <div className="flex flex-col gap-4 md:col-span-6">
+      <div className="container py-8 md:py-12 lg:py-16 grid-container">
+        <div className="flex flex-col col-span-4 gap-4 md:col-span-5 md:gap-6">
           <Link to="/">
             <img src={SVGs.viora_logo} alt="Viora Logo" className="w-fit" />
           </Link>
-          <p className="lg:w-[30rem] text-xs md:text-sm font-medium">
-            This website is not fully functional. This is a portfolio project
-            created to showcase design and development skills.
+          <p className="text-xs font-medium md:text-sm">
+            This website is not fully functional. It was created to be included
+            in a portfolio showcasing design and development skills.
           </p>
           {width && (
             <div className="space-y-1">
@@ -58,7 +61,7 @@ function FooterComponent() {
             </div>
           )}
         </div>
-        <div className="flex flex-col gap-4 md:grid md:grid-cols-4 lg:gap-5 md:col-span-6">
+        <div className="flex flex-col col-span-4 gap-6 md:grid md:grid-cols-6 md:col-span-6 md:col-start-7 lg:grid-cols-4 lg:col-span-4 lg:col-start-9">
           {FOOTER_NAV_ITEMS.map(({ section, items }) =>
             renderSection(section, items),
           )}

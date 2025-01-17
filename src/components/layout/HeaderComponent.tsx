@@ -24,7 +24,7 @@ function HeaderComponent() {
   const toggleNavOverlay = () => setIsNavOverlayOpen(!isNavOverlayOpen);
 
   return (
-    <header className="container flex justify-between py-3 lg:py-6 lg:grid-cols-12">
+    <header className="container sticky top-0 z-20 flex justify-between py-4 bg-white md:py-6 md:grid-container">
       <LeftSideSection />
       <RightSideSection toggleNavOverlay={toggleNavOverlay} />
       <NavDrawerComponent
@@ -37,7 +37,7 @@ function HeaderComponent() {
 
 function LeftSideSection() {
   return (
-    <div className="flex items-center gap-8 lg:col-span-8">
+    <div className="flex items-center gap-8 md:col-span-6 lg:col-span-8">
       <Link to="/">
         <img src={SVGs.viora_logo} alt="Viora Logo" className="w-fit" />
       </Link>
@@ -45,9 +45,11 @@ function LeftSideSection() {
         <ul className="flex gap-8">
           {HEADER_NAV_ITEMS.map((item, index) => (
             <li key={String(index)}>
-              <Link to={item.link}>
-                <NavItemComponent label={item.label} icon={item.icon} />
-              </Link>
+              <NavItemComponent
+                to={item.link}
+                label={item.label}
+                icon={item.icon}
+              />
             </li>
           ))}
         </ul>
@@ -62,7 +64,7 @@ function RightSideSection({
   const { items } = useShoppingBag();
 
   return (
-    <div className="flex items-center justify-end gap-6 lg:col-span-4">
+    <div className="flex items-center justify-end gap-6 md:col-span-6 lg:col-span-4">
       <div className="hidden md:block">
         <TextInputComponent
           id="search"

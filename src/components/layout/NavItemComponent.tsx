@@ -1,23 +1,35 @@
+import { Link, type LinkProps } from "react-router";
 import clsx from "clsx";
-import type { HeroIconProp } from "@Utilities";
+import { cn, type HeroIconProp } from "@Utilities";
 
 type Props = {
   label?: string;
   isDrawer?: boolean;
   isCapitalize?: boolean;
   icon?: HeroIconProp;
-};
+} & LinkProps;
 
 function NavItemComponent(props: Props) {
-  const { label = "Link", isDrawer, isCapitalize, icon: Icon } = props;
+  const {
+    label = "Link",
+    isDrawer,
+    isCapitalize,
+    icon: Icon,
+    to,
+    className,
+    ...linkProps
+  } = props;
 
   return (
-    <div
-      className={clsx(
+    <Link
+      to={to}
+      className={cn(
         "flex items-center cursor-pointer gap-1.5",
         isDrawer ? "p-3 md:p-4 border-b justify-between" : "p-0 w-max",
         { "py-1.5 md:py-2 flex-row-reverse": isCapitalize },
+        className,
       )}
+      {...linkProps}
     >
       <span
         className={
@@ -37,7 +49,7 @@ function NavItemComponent(props: Props) {
           )}
         />
       )}
-    </div>
+    </Link>
   );
 }
 

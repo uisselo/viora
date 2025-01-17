@@ -1,12 +1,17 @@
-import { Link } from "react-router";
 import clsx from "clsx";
 import {
+  MagnifyingGlassIcon,
   QuestionMarkCircleIcon,
   ShoppingBagIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { HEADER_NAV_ITEMS } from "@Config";
-import { ButtonComponent } from "@GlobalComponents";
+import {
+  ButtonComponent,
+  ButtonIconComponent,
+  TextInputComponent,
+} from "@GlobalComponents";
 import NavItemComponent from "./NavItemComponent";
 
 type Props = { isOpen: boolean; onClick: () => void };
@@ -29,51 +34,70 @@ function NavDrawerComponent(props: Props) {
     >
       <div
         className={clsx(
-          "bg-white h-screen w-[300px] md:w-[500px] absolute right-0 flex flex-col justify-between p-4 md:p-6 shadow delay-400 duration-500 ease-in-out transition-all transform",
+          "bg-white h-screen w-[320px] md:w-[500px] absolute right-0 flex flex-col gap-16 p-6 md:p-8 shadow delay-400 duration-500 ease-in-out transition-all transform",
           isOpen ? "translate-x-0" : "translate-x-full",
         )}
       >
-        <nav>
-          <ul className="flex flex-col">
-            {HEADER_NAV_ITEMS.map((item, index) => (
-              <li key={String(index)}>
-                <NavItemComponent
-                  label={item.label}
-                  isDrawer
-                  icon={item.icon}
-                />
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="space-y-8">
+        <div className="space-y-6">
+          <div className="flex justify-end">
+            <ButtonIconComponent
+              className="p-0"
+              icon={XMarkIcon}
+              iconClassName="size-6"
+            />
+          </div>
+          <TextInputComponent
+            placeholder="Search"
+            icon={MagnifyingGlassIcon}
+            hideLabel
+          />
+          <nav>
+            <ul className="flex flex-col">
+              {HEADER_NAV_ITEMS.map((item, index) => (
+                <li key={String(index)}>
+                  <NavItemComponent
+                    to={item.link}
+                    label={item.label}
+                    isDrawer
+                    icon={item.icon}
+                  />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        <div className="space-y-4">
           <ul>
             <li>
               <NavItemComponent
+                to="/"
                 label="Help"
                 icon={QuestionMarkCircleIcon}
                 isCapitalize
               />
             </li>
             <li>
-              <Link to="/shopping-bag">
-                <NavItemComponent
-                  label="Shopping Bag"
-                  icon={ShoppingBagIcon}
-                  isCapitalize
-                />
-              </Link>
+              <NavItemComponent
+                to="/shopping-bag"
+                label="Shopping Bag"
+                icon={ShoppingBagIcon}
+                isCapitalize
+              />
             </li>
           </ul>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3">
             {width && (
               <>
-                <ButtonComponent
-                  text="Login"
-                  variant="outline"
-                  size={width < 768 ? "sm" : "base"}
-                  isFull
-                />
+                <div className="flex gap-1">
+                  <p className="text-sm md:text-base">
+                    Already have an account?
+                  </p>
+                  <ButtonComponent
+                    text="Login here."
+                    size={width < 768 ? "sm" : "base"}
+                    variant="link"
+                  />
+                </div>
                 <ButtonComponent
                   text="Create Account"
                   size={width < 768 ? "sm" : "base"}
